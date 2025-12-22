@@ -1,4 +1,5 @@
 // Steel Ball Run - Dados do Jogo
+import { characterImages } from '@/assets/characters';
 
 export interface Stand {
   id: string;
@@ -25,7 +26,7 @@ export interface RaceStage {
   description: string;
 }
 
-// Stands da Steel Ball Run com imagens dos PERSONAGENS
+// Stands da Steel Ball Run com imagens locais dos PERSONAGENS
 export const stands: Stand[] = [
   {
     id: "tusk-act1",
@@ -33,7 +34,7 @@ export const stands: Stand[] = [
     user: "Johnny Joestar",
     description: "Balas de unha com energia rotacional",
     color: "hsl(200, 100%, 55%)",
-    image: "https://static.jojowiki.com/images/thumb/3/3c/latest/20210619211157/Johnny_Joestar_Infobox_Manga.png/400px-Johnny_Joestar_Infobox_Manga.png",
+    image: characterImages.johnny,
   },
   {
     id: "tusk-act4",
@@ -41,7 +42,7 @@ export const stands: Stand[] = [
     user: "Johnny Joestar",
     description: "O poder da rotação infinita",
     color: "hsl(200, 100%, 60%)",
-    image: "https://static.jojowiki.com/images/thumb/3/3c/latest/20210619211157/Johnny_Joestar_Infobox_Manga.png/400px-Johnny_Joestar_Infobox_Manga.png",
+    image: characterImages.johnny,
   },
   {
     id: "ball-breaker",
@@ -49,7 +50,7 @@ export const stands: Stand[] = [
     user: "Gyro Zeppeli",
     description: "Manifestação do Spin Dourado",
     color: "hsl(140, 80%, 50%)",
-    image: "https://static.jojowiki.com/images/thumb/1/11/latest/20191015214506/Gyro_Zeppeli_Infobox_Manga.png/400px-Gyro_Zeppeli_Infobox_Manga.png",
+    image: characterImages.gyro,
   },
   {
     id: "scary-monsters",
@@ -57,7 +58,7 @@ export const stands: Stand[] = [
     user: "Diego Brando",
     description: "Transformação em dinossauros",
     color: "hsl(0, 85%, 55%)",
-    image: "https://static.jojowiki.com/images/thumb/e/ef/latest/20191015214412/Diego_Brando_Infobox_Manga.png/400px-Diego_Brando_Infobox_Manga.png",
+    image: characterImages.diego,
   },
   {
     id: "d4c",
@@ -65,7 +66,7 @@ export const stands: Stand[] = [
     user: "Funny Valentine",
     description: "Viagem dimensional e redirecionamento de infortúnio",
     color: "hsl(280, 70%, 55%)",
-    image: "https://static.jojowiki.com/images/thumb/0/0b/latest/20191015214415/Funny_Valentine_Infobox_Manga.png/400px-Funny_Valentine_Infobox_Manga.png",
+    image: characterImages.valentine,
   },
   {
     id: "cream-starter",
@@ -73,7 +74,7 @@ export const stands: Stand[] = [
     user: "Hot Pants",
     description: "Spray de manipulação de carne",
     color: "hsl(330, 70%, 60%)",
-    image: "https://static.jojowiki.com/images/thumb/6/6c/latest/20191015214421/Hot_Pants_Infobox_Manga.png/400px-Hot_Pants_Infobox_Manga.png",
+    image: characterImages.hotpants,
   },
   {
     id: "in-a-silent-way",
@@ -81,7 +82,7 @@ export const stands: Stand[] = [
     user: "Sandman",
     description: "Manipulação de som como ataques físicos",
     color: "hsl(35, 80%, 55%)",
-    image: "https://static.jojowiki.com/images/thumb/5/54/latest/20191015214428/Sandman_Infobox_Manga.png/400px-Sandman_Infobox_Manga.png",
+    image: characterImages.sandman,
   },
   {
     id: "mandom",
@@ -89,7 +90,7 @@ export const stands: Stand[] = [
     user: "Ringo Roadagain",
     description: "Retrocede o tempo em 6 segundos",
     color: "hsl(200, 60%, 45%)",
-    image: "https://static.jojowiki.com/images/thumb/0/0b/latest/20191015214426/Ringo_Roadagain_Infobox_Manga.png/400px-Ringo_Roadagain_Infobox_Manga.png",
+    image: characterImages.ringo,
   },
   {
     id: "catch-the-rainbow",
@@ -97,7 +98,7 @@ export const stands: Stand[] = [
     user: "Blackmore",
     description: "Controla e solidifica gotas de chuva",
     color: "hsl(220, 70%, 65%)",
-    image: "https://static.jojowiki.com/images/thumb/0/0f/latest/20191015214408/Blackmore_Infobox_Manga.png/400px-Blackmore_Infobox_Manga.png",
+    image: characterImages.blackmore,
   },
   {
     id: "hey-ya",
@@ -105,7 +106,7 @@ export const stands: Stand[] = [
     user: "Pocoloco",
     description: "Orienta seu usuário para o caminho da sorte",
     color: "hsl(50, 90%, 55%)",
-    image: "https://static.jojowiki.com/images/thumb/9/91/latest/20191015214423/Pocoloco_Infobox_Manga.png/400px-Pocoloco_Infobox_Manga.png",
+    image: characterImages.pocoloco,
   },
   {
     id: "oh-lonesome-me",
@@ -113,7 +114,7 @@ export const stands: Stand[] = [
     user: "Mountain Tim",
     description: "Manipulação de corda e separação corporal",
     color: "hsl(25, 70%, 50%)",
-    image: "https://static.jojowiki.com/images/thumb/8/89/latest/20191015214420/Mountain_Tim_Infobox_Manga.png/400px-Mountain_Tim_Infobox_Manga.png",
+    image: characterImages.tim,
   },
   {
     id: "ticket-to-ride",
@@ -121,7 +122,7 @@ export const stands: Stand[] = [
     user: "Lucy Steel",
     description: "Proteção milagrosa",
     color: "hsl(45, 100%, 65%)",
-    image: "https://static.jojowiki.com/images/thumb/8/82/latest/20191015214422/Lucy_Steel_Infobox_Manga.png/400px-Lucy_Steel_Infobox_Manga.png",
+    image: characterImages.lucy,
   },
   {
     id: "wrecking-ball",
@@ -129,7 +130,7 @@ export const stands: Stand[] = [
     user: "Wekapipo",
     description: "Esferas de aço que causam cegueira lateral esquerda",
     color: "hsl(0, 0%, 60%)",
-    image: "https://static.jojowiki.com/images/thumb/c/c5/latest/20191015214436/Wekapipo_Infobox_Manga.png/400px-Wekapipo_Infobox_Manga.png",
+    image: characterImages.wekapipo,
   },
 ];
 
@@ -139,7 +140,7 @@ export const characters: Character[] = [
     id: "johnny",
     name: "Johnny Joestar",
     stand: stands.find(s => s.id === "tusk-act4")!,
-    avatar: "https://static.jojowiki.com/images/thumb/3/3c/latest/20210619211157/Johnny_Joestar_Infobox_Manga.png/270px-Johnny_Joestar_Infobox_Manga.png",
+    avatar: characterImages.johnny,
     isPlayable: true,
     quote: "Eu vou continuar avançando... não importa o quê!",
   },
@@ -147,7 +148,7 @@ export const characters: Character[] = [
     id: "gyro",
     name: "Gyro Zeppeli",
     stand: stands.find(s => s.id === "ball-breaker")!,
-    avatar: "https://static.jojowiki.com/images/thumb/1/11/latest/20191015214506/Gyro_Zeppeli_Infobox_Manga.png/270px-Gyro_Zeppeli_Infobox_Manga.png",
+    avatar: characterImages.gyro,
     isPlayable: true,
     quote: "Nyoho~! A lição número 5, Johnny... RESPEITE!",
   },
@@ -155,7 +156,7 @@ export const characters: Character[] = [
     id: "hot-pants",
     name: "Hot Pants",
     stand: stands.find(s => s.id === "cream-starter")!,
-    avatar: "https://static.jojowiki.com/images/thumb/6/6c/latest/20191015214421/Hot_Pants_Infobox_Manga.png/270px-Hot_Pants_Infobox_Manga.png",
+    avatar: characterImages.hotpants,
     isPlayable: true,
     quote: "Eu tenho meus próprios pecados a carregar...",
   },
@@ -163,7 +164,7 @@ export const characters: Character[] = [
     id: "mountain-tim",
     name: "Mountain Tim",
     stand: stands.find(s => s.id === "oh-lonesome-me")!,
-    avatar: "https://static.jojowiki.com/images/thumb/8/89/latest/20191015214420/Mountain_Tim_Infobox_Manga.png/270px-Mountain_Tim_Infobox_Manga.png",
+    avatar: characterImages.tim,
     isPlayable: true,
     quote: "Eu sou um cowboy de verdade!",
   },
@@ -171,7 +172,7 @@ export const characters: Character[] = [
     id: "sandman",
     name: "Sandman",
     stand: stands.find(s => s.id === "in-a-silent-way")!,
-    avatar: "https://static.jojowiki.com/images/thumb/5/54/latest/20191015214428/Sandman_Infobox_Manga.png/270px-Sandman_Infobox_Manga.png",
+    avatar: characterImages.sandman,
     isPlayable: true,
     quote: "Eu corro mais rápido que qualquer cavalo!",
   },
@@ -179,7 +180,7 @@ export const characters: Character[] = [
     id: "pocoloco",
     name: "Pocoloco",
     stand: stands.find(s => s.id === "hey-ya")!,
-    avatar: "https://static.jojowiki.com/images/thumb/9/91/latest/20191015214423/Pocoloco_Infobox_Manga.png/270px-Pocoloco_Infobox_Manga.png",
+    avatar: characterImages.pocoloco,
     isPlayable: true,
     quote: "Eu nasci sortudo! A sorte está do meu lado!",
   },
@@ -187,7 +188,7 @@ export const characters: Character[] = [
     id: "wekapipo",
     name: "Wekapipo",
     stand: stands.find(s => s.id === "wrecking-ball")!,
-    avatar: "https://static.jojowiki.com/images/thumb/c/c5/latest/20191015214436/Wekapipo_Infobox_Manga.png/270px-Wekapipo_Infobox_Manga.png",
+    avatar: characterImages.wekapipo,
     isPlayable: true,
     quote: "Estas esferas são o símbolo do meu poder!",
   },
@@ -195,7 +196,7 @@ export const characters: Character[] = [
     id: "lucy",
     name: "Lucy Steel",
     stand: stands.find(s => s.id === "ticket-to-ride")!,
-    avatar: "https://static.jojowiki.com/images/thumb/8/82/latest/20191015214422/Lucy_Steel_Infobox_Manga.png/270px-Lucy_Steel_Infobox_Manga.png",
+    avatar: characterImages.lucy,
     isPlayable: true,
     quote: "Eu farei qualquer coisa para proteger quem eu amo!",
   },
@@ -203,7 +204,7 @@ export const characters: Character[] = [
     id: "diego",
     name: "Diego Brando",
     stand: stands.find(s => s.id === "scary-monsters")!,
-    avatar: "https://static.jojowiki.com/images/thumb/e/ef/latest/20191015214412/Diego_Brando_Infobox_Manga.png/270px-Diego_Brando_Infobox_Manga.png",
+    avatar: characterImages.diego,
     isPlayable: false,
     quote: "WRYYYYY! Eu sou o vencedor desta corrida!",
   },
