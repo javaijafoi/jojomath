@@ -53,7 +53,7 @@ export function useGameState() {
       round: 1,
       correctAnswers: 0,
       wrongAnswers: 0,
-      currentProblem: generateMathProblem("medium"),
+      currentProblem: generateMathProblem(),
       isAnswering: false,
     }));
   }, []);
@@ -108,7 +108,7 @@ export function useGameState() {
     setState(prev => ({
       ...prev,
       round: prev.round + 1,
-      currentProblem: generateMathProblem("medium"),
+      currentProblem: generateMathProblem(),
       isAnswering: false,
     }));
   }, []);

@@ -1,4 +1,5 @@
-import { Character, characters } from "@/data/gameData";
+import { useState, useEffect } from "react";
+import { Character, getRandomPlayableCharacters } from "@/data/gameData";
 import { MenacingText } from "./MenacingText";
 import { cn } from "@/lib/utils";
 
@@ -7,102 +8,107 @@ interface CharacterSelectProps {
 }
 
 export function CharacterSelect({ onSelect }: CharacterSelectProps) {
-  const playableCharacters = characters.filter(c => c.isPlayable);
+  // Sorteia 4 personagens aleatórios a cada vez que abre
+  const [availableCharacters, setAvailableCharacters] = useState<Character[]>([]);
+
+  useEffect(() => {
+    setAvailableCharacters(getRandomPlayableCharacters(4));
+  }, []);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 speed-lines opacity-15" />
-      <div className="absolute inset-0 diagonal-lines" />
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
+      {/* Background - mais sutil */}
+      <div className="absolute inset-0 speed-lines opacity-10" />
+      <div className="absolute inset-0 diagonal-lines opacity-50" />
 
-      <div className="relative z-10 text-center space-y-8 w-full max-w-5xl">
+      <div className="relative z-10 text-center space-y-6 w-full max-w-6xl">
         <MenacingText size="lg" className="text-primary">
           ESCOLHA SEU CORREDOR
         </MenacingText>
 
-        <p className="text-muted-foreground font-russo text-lg">
+        <p className="text-muted-foreground font-russo text-base">
           「Quem vai encarar a Steel Ball Run?」
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          {playableCharacters.map((character, idx) => (
+        {/* Grid de personagens - FOCO NAS IMAGENS */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+          {availableCharacters.map((character, idx) => (
             <button
               key={character.id}
               onClick={() => onSelect(character)}
               className={cn(
-                "p-6 rounded-lg border-2 transition-all duration-300",
-                "bg-card/80 hover:bg-card backdrop-blur-sm",
-                "border-border hover:border-primary",
-                "hover:scale-105 hover:shadow-[0_0_30px_hsl(var(--primary)/0.4)]",
-                "group dramatic-enter relative overflow-hidden"
+                "relative rounded-xl overflow-hidden transition-all duration-300",
+                "border-4 border-transparent hover:border-primary",
+                "hover:scale-105 hover:shadow-[0_0_40px_hsl(var(--primary)/0.5)]",
+                "group dramatic-enter aspect-[3/4]"
               )}
-              style={{ animationDelay: `${idx * 0.15}s` }}
+              style={{ animationDelay: `${idx * 0.1}s` }}
             >
-              {/* Hover glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              
-              {/* Avatar */}
-              <div className="relative w-32 h-32 mx-auto mb-4 rounded-lg overflow-hidden border-2 border-muted group-hover:border-primary transition-colors">
-                <img 
-                  src={character.avatar} 
-                  alt={character.name}
-                  className="w-full h-full object-cover object-top"
-                  onError={(e) => {
-                    // Fallback to emoji if image fails
-                    (e.target as HTMLImageElement).style.display = 'none';
-                    (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
-                  }}
-                />
-                <div className="hidden absolute inset-0 flex items-center justify-center text-6xl bg-muted">
-                  {character.id === 'johnny' ? '🏇' : character.id === 'gyro' ? '🎱' : '✝️'}
-                </div>
-              </div>
+              {/* Character Image - FULL COVERAGE */}
+              <img 
+                src={character.avatar} 
+                alt={character.name}
+                className="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-300 group-hover:scale-110"
+              />
 
-              {/* Name */}
-              <h3 className="font-bebas text-2xl text-foreground group-hover:text-primary transition-colors relative z-10">
-                {character.name}
-              </h3>
-
-              {/* Stand badge */}
+              {/* Gradient overlay */}
               <div 
-                className="mt-3 px-4 py-1.5 rounded-full text-sm font-russo inline-block"
-                style={{ 
-                  backgroundColor: `${character.stand.color}30`,
-                  color: character.stand.color,
-                  border: `2px solid ${character.stand.color}`,
-                  boxShadow: `0 0 15px ${character.stand.color}40`
-                }}
-              >
-                {character.stand.name}
+                className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80"
+              />
+
+              {/* Character info at bottom */}
+              <div className="absolute bottom-0 left-0 right-0 p-3 text-left">
+                <h3 className="font-bebas text-xl md:text-2xl text-white drop-shadow-lg">
+                  {character.name}
+                </h3>
+                <p 
+                  className="text-xs font-russo"
+                  style={{ color: character.stand.color }}
+                >
+                  {character.stand.name}
+                </p>
               </div>
 
-              {/* Quote */}
-              <p className="mt-4 text-xs text-muted-foreground font-russo italic leading-relaxed">
-                「{character.quote}」
-              </p>
+              {/* Quote on hover */}
+              <div className="absolute inset-0 flex items-center justify-center p-4 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity">
+                <p className="text-white font-russo text-sm italic text-center">
+                  「{character.quote}」
+                </p>
+              </div>
 
               {/* Menacing on hover */}
-              <div className="absolute -top-2 -right-2 text-menacing text-2xl opacity-0 group-hover:opacity-70 animate-menacing">
+              <div className="absolute top-2 right-2 text-menacing text-2xl opacity-0 group-hover:opacity-80 animate-menacing">
                 ゴ
               </div>
+
+              {/* Stand color accent */}
+              <div 
+                className="absolute top-0 left-0 w-full h-1"
+                style={{ backgroundColor: character.stand.color }}
+              />
             </button>
           ))}
         </div>
 
-        {/* VS Diego indicator */}
-        <div className="mt-8 p-4 bg-destructive/20 rounded-lg border border-destructive/50 max-w-md mx-auto">
-          <p className="font-bebas text-lg text-destructive">
-            VS DIEGO BRANDO
-          </p>
-          <p className="text-sm text-muted-foreground font-russo">
-            「WRYYYYY! Eu serei o vencedor desta corrida!」
-          </p>
+        {/* VS Diego - mais compacto */}
+        <div className="mt-6 flex items-center justify-center gap-4 p-3 bg-destructive/10 rounded-lg border border-destructive/30 max-w-sm mx-auto">
+          <img 
+            src="https://static.jojowiki.com/images/thumb/e/ef/latest/20191015214412/Diego_Brando_Infobox_Manga.png/270px-Diego_Brando_Infobox_Manga.png"
+            alt="Diego"
+            className="w-16 h-16 rounded-full object-cover object-top border-2 border-destructive"
+          />
+          <div className="text-left">
+            <p className="font-bebas text-lg text-destructive">VS DIEGO BRANDO</p>
+            <p className="text-xs text-muted-foreground font-russo italic">
+              「WRYYYYY!」
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Menacing symbols */}
-      <div className="absolute top-20 left-10 text-menacing text-4xl animate-menacing opacity-40">ゴ</div>
-      <div className="absolute bottom-20 right-10 text-primary text-5xl animate-menacing opacity-35" style={{ animationDelay: "0.7s" }}>ゴ</div>
+      {/* Floating menacing symbols */}
+      <div className="absolute top-10 left-6 text-menacing text-3xl animate-menacing opacity-30">ゴ</div>
+      <div className="absolute bottom-10 right-6 text-primary text-4xl animate-menacing opacity-25" style={{ animationDelay: "0.5s" }}>ゴ</div>
     </div>
   );
 }

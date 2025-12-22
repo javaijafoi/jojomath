@@ -1,106 +1,144 @@
-import { raceStages, TOTAL_RACE_DISTANCE } from "@/data/gameData";
+import { raceStages, TOTAL_RACE_DISTANCE, characters, encouragementQuotes, diegoTaunts } from "@/data/gameData";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 
 interface RaceMapProps {
   playerProgress: number;
   cpuProgress: number;
   playerName: string;
-  playerEmoji: string;
+  playerAvatar: string;
 }
 
 export function RaceMap({ 
   playerProgress, 
   cpuProgress, 
   playerName,
-  playerEmoji 
+  playerAvatar 
 }: RaceMapProps) {
   const playerPercent = Math.min((playerProgress / TOTAL_RACE_DISTANCE) * 100, 100);
   const cpuPercent = Math.min((cpuProgress / TOTAL_RACE_DISTANCE) * 100, 100);
+  const diego = characters.find(c => c.id === "diego")!;
+  
+  const [quote, setQuote] = useState("");
+
+  // Citação aleatória que muda periodicamente
+  useEffect(() => {
+    const updateQuote = () => {
+      const quotes = cpuPercent > playerPercent ? diegoTaunts : encouragementQuotes;
+      setQuote(quotes[Math.floor(Math.random() * quotes.length)]);
+    };
+    updateQuote();
+    const interval = setInterval(updateQuote, 5000);
+    return () => clearInterval(interval);
+  }, [playerPercent, cpuPercent]);
 
   return (
-    <div className="w-full bg-card/80 rounded-lg p-4 border-2 border-primary/30 backdrop-blur-sm">
-      <div className="flex justify-between items-center mb-3">
-        <h3 className="font-bebas text-xl text-accent">Steel Ball Run</h3>
-        <span className="text-muted-foreground text-sm font-russo">
-          San Diego → Nova York
-        </span>
+    <div className="w-full bg-card/60 rounded-xl p-4 border-2 border-primary/30 backdrop-blur-sm">
+      {/* Quote */}
+      <div className="text-center mb-3">
+        <p className="text-sm font-russo text-accent italic">{quote}</p>
       </div>
 
       {/* Race track */}
-      <div className="relative h-20 bg-muted rounded-full overflow-hidden mb-4 border-2 border-border">
-        {/* Stage markers */}
-        {raceStages.map((stage, idx) => {
+      <div className="relative h-28 bg-muted/80 rounded-2xl overflow-visible mb-2 border-2 border-border">
+        {/* Track background gradient */}
+        <div 
+          className="absolute inset-0 opacity-30 rounded-2xl"
+          style={{
+            background: "linear-gradient(90deg, hsl(330 85% 60% / 0.4), hsl(180 80% 50% / 0.4), hsl(45 100% 55% / 0.4))"
+          }}
+        />
+
+        {/* Stage markers - simplified */}
+        {raceStages.filter((_, i) => i === 0 || i === raceStages.length - 1).map((stage, idx) => {
           const percent = (stage.distance / TOTAL_RACE_DISTANCE) * 100;
           return (
             <div
               key={stage.id}
-              className="absolute top-0 bottom-0 w-0.5 bg-border/50"
+              className="absolute top-full w-0.5 h-2 bg-border/50"
               style={{ left: `${percent}%` }}
             >
               <div 
                 className={cn(
-                  "absolute -bottom-7 transform -translate-x-1/2 text-xs whitespace-nowrap font-russo",
-                  idx === 0 && "translate-x-0",
-                  idx === raceStages.length - 1 && "-translate-x-full"
+                  "absolute top-2 transform text-xs whitespace-nowrap font-russo",
+                  idx === 0 ? "left-0" : "-translate-x-full"
                 )}
               >
-                <span className="text-muted-foreground">{stage.name}</span>
+                <span className="text-muted-foreground text-[10px]">{stage.name}</span>
               </div>
             </div>
           );
         })}
 
-        {/* Track background gradient - JoJo colors */}
-        <div 
-          className="absolute inset-0 opacity-40"
-          style={{
-            background: "linear-gradient(90deg, hsl(330 85% 60% / 0.3), hsl(180 80% 50% / 0.3), hsl(45 100% 55% / 0.3))"
-          }}
-        />
-
-        {/* Player marker */}
+        {/* Player marker - GRANDE */}
         <div
           className={cn(
-            "absolute top-2 h-7 w-10 flex items-center justify-center",
-            "text-lg transition-all duration-500 ease-out race-glow rounded-full bg-success border-2 border-success"
+            "absolute top-2 transition-all duration-500 ease-out"
           )}
-          style={{ left: `calc(${playerPercent}% - 20px)` }}
+          style={{ left: `calc(${playerPercent}% - 28px)` }}
         >
-          <img 
-            src={playerEmoji}
-            alt="player"
-            className="w-6 h-6 rounded-full object-cover"
-            onError={(e) => {
-              (e.target as HTMLImageElement).style.display = 'none';
-              const parent = (e.target as HTMLImageElement).parentElement;
-              if (parent) parent.textContent = '🏇';
-            }}
-          />
+          <div className="relative">
+            <div className="w-14 h-14 rounded-full overflow-hidden border-4 border-success race-glow bg-card">
+              <img 
+                src={playerAvatar}
+                alt={playerName}
+                className="w-full h-full object-cover object-top"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
+              />
+            </div>
+            {/* Glow effect */}
+            <div 
+              className="absolute inset-0 rounded-full animate-pulse"
+              style={{ boxShadow: "0 0 20px hsl(var(--success))" }}
+            />
+          </div>
         </div>
 
-        {/* CPU marker */}
+        {/* CPU (Diego) marker - GRANDE */}
         <div
           className={cn(
-            "absolute bottom-2 h-7 w-10 flex items-center justify-center",
-            "text-lg transition-all duration-500 ease-out enemy-glow rounded-full bg-destructive border-2 border-destructive"
+            "absolute bottom-2 transition-all duration-500 ease-out"
           )}
-          style={{ left: `calc(${cpuPercent}% - 20px)` }}
+          style={{ left: `calc(${cpuPercent}% - 28px)` }}
         >
-          🦖
+          <div className="relative">
+            <div className="w-14 h-14 rounded-full overflow-hidden border-4 border-destructive enemy-glow bg-card">
+              <img 
+                src={diego.avatar}
+                alt="Diego Brando"
+                className="w-full h-full object-cover object-top"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '';
+                  const parent = (e.target as HTMLImageElement).parentElement;
+                  if (parent) parent.innerHTML = '<span class="text-3xl flex items-center justify-center h-full">🦖</span>';
+                }}
+              />
+            </div>
+            {/* Menacing effect for Diego */}
+            <div className="absolute -top-2 -right-2 text-lg animate-menacing text-destructive">
+              ゴ
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Legend */}
-      <div className="flex justify-between text-sm mt-8 font-russo">
+      {/* Simplified legend with avatars */}
+      <div className="flex justify-between text-sm mt-6 font-russo">
         <div className="flex items-center gap-2">
-          <span className="w-4 h-4 rounded-full bg-success race-glow border border-success" />
-          <span className="text-foreground">{playerName}</span>
-          <span className="text-muted-foreground">({Math.round(playerProgress)} km)</span>
+          <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-success">
+            <img src={playerAvatar} alt="" className="w-full h-full object-cover object-top" />
+          </div>
+          <span className="text-foreground text-sm">{playerName}</span>
+          <span className="text-success font-bold">{Math.round(playerProgress)} km</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="w-4 h-4 rounded-full bg-destructive enemy-glow border border-destructive" />
-          <span className="text-foreground">Diego Brando</span>
-          <span className="text-muted-foreground">({Math.round(cpuProgress)} km)</span>
+          <span className="text-destructive font-bold">{Math.round(cpuProgress)} km</span>
+          <span className="text-foreground text-sm">Diego</span>
+          <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-destructive">
+            <img src={diego.avatar} alt="" className="w-full h-full object-cover object-top" />
+          </div>
         </div>
       </div>
     </div>
