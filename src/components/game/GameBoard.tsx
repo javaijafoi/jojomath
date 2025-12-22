@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Character, MathProblem } from "@/data/gameData";
+import { Character, MathProblem, correctAnswerQuotes, wrongAnswerQuotes } from "@/data/gameData";
 import { StandCard } from "./StandCard";
 import { OperationBadge } from "./OperationBadge";
 import { AnswerButton } from "./AnswerButton";
@@ -22,7 +22,7 @@ interface GameBoardProps {
   onTimeUp: () => void;
 }
 
-const ROUND_TIME = 15; // seconds per round
+const ROUND_TIME = 15;
 
 export function GameBoard({
   player,
@@ -40,12 +40,13 @@ export function GameBoard({
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [answerState, setAnswerState] = useState<"idle" | "correct" | "wrong">("idle");
   const [timerKey, setTimerKey] = useState(0);
+  const [feedbackQuote, setFeedbackQuote] = useState("");
 
-  // Reset state when problem changes
   useEffect(() => {
     setSelectedAnswer(null);
     setAnswerState("idle");
     setTimerKey(prev => prev + 1);
+    setFeedbackQuote("");
   }, [problem, round]);
 
   const handleAnswer = (answer: number) => {
@@ -54,9 +55,12 @@ export function GameBoard({
     setSelectedAnswer(answer);
     const isCorrect = answer === problem.answer;
     setAnswerState(isCorrect ? "correct" : "wrong");
+    
+    const quotes = isCorrect ? correctAnswerQuotes : wrongAnswerQuotes;
+    setFeedbackQuote(quotes[Math.floor(Math.random() * quotes.length)]);
+    
     onSubmitAnswer(answer);
 
-    // Proceed to next round after delay
     setTimeout(() => {
       onNextRound();
     }, 1500);
@@ -65,6 +69,7 @@ export function GameBoard({
   const handleTimeUp = () => {
     if (!isAnswering) {
       setAnswerState("wrong");
+      setFeedbackQuote(wrongAnswerQuotes[Math.floor(Math.random() * wrongAnswerQuotes.length)]);
       onTimeUp();
       
       setTimeout(() => {
@@ -76,34 +81,44 @@ export function GameBoard({
   return (
     <div className="min-h-screen flex flex-col p-4 md:p-6 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 speed-lines opacity-5" />
+      <div className="absolute inset-0 speed-lines opacity-10" />
+      <div className="absolute inset-0 diagonal-lines" />
 
       <div className="relative z-10 flex flex-col h-full max-w-4xl mx-auto w-full gap-4">
         {/* Header with stats */}
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center bg-card/50 rounded-lg p-3 border border-border backdrop-blur-sm">
           <div className="flex items-center gap-3">
-            <span className="text-2xl">{player.avatar}</span>
+            <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-primary">
+              <img 
+                src={player.avatar} 
+                alt={player.name}
+                className="w-full h-full object-cover object-top"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
+              />
+            </div>
             <div>
               <p className="font-bebas text-lg text-foreground">{player.name}</p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-primary">
                 {player.stand.name}
               </p>
             </div>
           </div>
           
           <div className="text-center">
-            <MenacingText size="sm" className="text-primary">
-              ROUND {round}
+            <MenacingText size="sm" className="text-accent">
+              RODADA {round}
             </MenacingText>
           </div>
 
           <div className="text-right">
-            <p className="font-bebas text-lg">
-              <span className="text-success">{correctAnswers}</span>
+            <p className="font-bebas text-xl">
+              <span className="text-gyro">{correctAnswers}</span>
               <span className="text-muted-foreground"> / </span>
               <span className="text-destructive">{wrongAnswers}</span>
             </p>
-            <p className="text-xs text-muted-foreground">Correct / Wrong</p>
+            <p className="text-xs text-muted-foreground">Certos / Erros</p>
           </div>
         </div>
 
@@ -139,18 +154,24 @@ export function GameBoard({
               value={problem.cardB}
               stand={problem.standB}
               size="lg"
-              className="dramatic-enter [animation-delay:0.1s]"
+              className="dramatic-enter"
+              style={{ animationDelay: "0.1s" }}
             />
           </div>
 
-          {/* Question */}
-          <p className="font-bebas text-3xl text-foreground">
-            {problem.cardA} {problem.operation} {problem.cardB} = ?
-          </p>
+          {/* Question - more dramatic */}
+          <div className="text-center">
+            <p className="font-bebas text-4xl md:text-5xl text-foreground">
+              <span style={{ color: problem.standA.color }}>{problem.cardA}</span>
+              <span className="text-accent mx-3">{problem.operation}</span>
+              <span style={{ color: problem.standB.color }}>{problem.cardB}</span>
+              <span className="text-primary"> = ?</span>
+            </p>
+          </div>
         </div>
 
         {/* Answer buttons */}
-        <div className="grid grid-cols-2 gap-3 md:gap-4 pb-4">
+        <div className="grid grid-cols-2 gap-4 md:gap-6 pb-4">
           {problem.options.map((option, idx) => (
             <AnswerButton
               key={`${option}-${idx}`}
@@ -172,14 +193,12 @@ export function GameBoard({
         {/* Feedback message */}
         {isAnswering && (
           <div className={cn(
-            "text-center py-2 font-bebas text-2xl dramatic-enter",
-            answerState === "correct" ? "text-success" : "text-destructive"
+            "text-center py-3 font-bebas text-2xl md:text-3xl dramatic-enter",
+            answerState === "correct" ? "text-gyro" : "text-destructive"
           )}>
-            {answerState === "correct" ? (
-              <>🎯 CORRECT! GO!GO!GO!</>
-            ) : (
-              <>💀 WRONG! Diego advances!</>
-            )}
+            <span className={answerState === "correct" ? "ora-effect inline-block" : ""}>
+              {feedbackQuote}
+            </span>
           </div>
         )}
       </div>
