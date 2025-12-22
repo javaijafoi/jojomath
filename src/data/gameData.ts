@@ -6,6 +6,7 @@ export interface Stand {
   user: string;
   description: string;
   color: string;
+  image: string;
 }
 
 export interface Character {
@@ -24,7 +25,7 @@ export interface RaceStage {
   description: string;
 }
 
-// Stands da Steel Ball Run
+// Stands da Steel Ball Run com imagens
 export const stands: Stand[] = [
   {
     id: "tusk-act1",
@@ -32,6 +33,7 @@ export const stands: Stand[] = [
     user: "Johnny Joestar",
     description: "Balas de unha com energia rotacional",
     color: "hsl(200, 100%, 55%)",
+    image: "https://static.jojowiki.com/images/thumb/0/0a/latest/20191015213855/Tusk_ACT1_color_v2.png/400px-Tusk_ACT1_color_v2.png",
   },
   {
     id: "tusk-act4",
@@ -39,6 +41,7 @@ export const stands: Stand[] = [
     user: "Johnny Joestar",
     description: "O poder da rotação infinita",
     color: "hsl(200, 100%, 60%)",
+    image: "https://static.jojowiki.com/images/thumb/d/d7/latest/20191015213906/Tusk_ACT4_KeyArt.png/400px-Tusk_ACT4_KeyArt.png",
   },
   {
     id: "ball-breaker",
@@ -46,6 +49,7 @@ export const stands: Stand[] = [
     user: "Gyro Zeppeli",
     description: "Manifestação do Spin Dourado",
     color: "hsl(140, 80%, 50%)",
+    image: "https://static.jojowiki.com/images/thumb/e/e2/latest/20191015213604/Ball_Breaker_KeyArt.png/400px-Ball_Breaker_KeyArt.png",
   },
   {
     id: "scary-monsters",
@@ -53,6 +57,7 @@ export const stands: Stand[] = [
     user: "Diego Brando",
     description: "Transformação em dinossauros",
     color: "hsl(0, 85%, 55%)",
+    image: "https://static.jojowiki.com/images/thumb/f/fb/latest/20191015213727/Scary_Monsters_KeyArt.png/400px-Scary_Monsters_KeyArt.png",
   },
   {
     id: "d4c",
@@ -60,6 +65,7 @@ export const stands: Stand[] = [
     user: "Funny Valentine",
     description: "Viagem dimensional e redirecionamento de infortúnio",
     color: "hsl(280, 70%, 55%)",
+    image: "https://static.jojowiki.com/images/thumb/c/c9/latest/20220131022048/D4C_KeyArt.png/400px-D4C_KeyArt.png",
   },
   {
     id: "cream-starter",
@@ -67,6 +73,7 @@ export const stands: Stand[] = [
     user: "Hot Pants",
     description: "Spray de manipulação de carne",
     color: "hsl(330, 70%, 60%)",
+    image: "https://static.jojowiki.com/images/thumb/9/9b/latest/20191015213711/Cream_Starter_Infobox_Manga.png/400px-Cream_Starter_Infobox_Manga.png",
   },
   {
     id: "in-a-silent-way",
@@ -74,6 +81,7 @@ export const stands: Stand[] = [
     user: "Sandman",
     description: "Manipulação de som como ataques físicos",
     color: "hsl(35, 80%, 55%)",
+    image: "https://static.jojowiki.com/images/thumb/f/f9/latest/20200613164527/In_a_Silent_Way.png/400px-In_a_Silent_Way.png",
   },
   {
     id: "mandom",
@@ -81,6 +89,7 @@ export const stands: Stand[] = [
     user: "Ringo Roadagain",
     description: "Retrocede o tempo em 6 segundos",
     color: "hsl(200, 60%, 45%)",
+    image: "https://static.jojowiki.com/images/thumb/6/6c/latest/20200430175608/Mandom_Infobox_Manga.png/400px-Mandom_Infobox_Manga.png",
   },
   {
     id: "catch-the-rainbow",
@@ -88,20 +97,15 @@ export const stands: Stand[] = [
     user: "Blackmore",
     description: "Controla e solidifica gotas de chuva",
     color: "hsl(220, 70%, 65%)",
+    image: "https://static.jojowiki.com/images/thumb/a/ae/latest/20191015213653/Catch_the_Rainbow_Infobox_Manga.png/400px-Catch_the_Rainbow_Infobox_Manga.png",
   },
   {
-    id: "civil-war",
-    name: "Civil War",
-    user: "Axl RO",
-    description: "Materializa coisas descartadas e culpa",
-    color: "hsl(180, 50%, 50%)",
-  },
-  {
-    id: "ticket-to-ride",
-    name: "Ticket to Ride",
-    user: "Lucy Steel",
-    description: "Proteção milagrosa",
-    color: "hsl(45, 100%, 65%)",
+    id: "hey-ya",
+    name: "Hey Ya!",
+    user: "Pocoloco",
+    description: "Orienta seu usuário para o caminho da sorte",
+    color: "hsl(50, 90%, 55%)",
+    image: "https://static.jojowiki.com/images/thumb/a/a9/latest/20210102175720/Hey_Ya%21_Infobox_Manga.png/400px-Hey_Ya%21_Infobox_Manga.png",
   },
   {
     id: "oh-lonesome-me",
@@ -109,10 +113,27 @@ export const stands: Stand[] = [
     user: "Mountain Tim",
     description: "Manipulação de corda e separação corporal",
     color: "hsl(25, 70%, 50%)",
+    image: "https://static.jojowiki.com/images/thumb/9/95/latest/20191015213630/Oh%21_Lonesome_Me_Infobox_Manga.png/400px-Oh%21_Lonesome_Me_Infobox_Manga.png",
+  },
+  {
+    id: "ticket-to-ride",
+    name: "Ticket to Ride",
+    user: "Lucy Steel",
+    description: "Proteção milagrosa",
+    color: "hsl(45, 100%, 65%)",
+    image: "https://static.jojowiki.com/images/thumb/b/b3/latest/20191015213840/Ticket_to_Ride_Infobox_Manga.png/400px-Ticket_to_Ride_Infobox_Manga.png",
+  },
+  {
+    id: "wrecking-ball",
+    name: "Wrecking Ball",
+    user: "Wekapipo",
+    description: "Esferas de aço que causam cegueira lateral esquerda",
+    color: "hsl(0, 0%, 60%)",
+    image: "https://static.jojowiki.com/images/thumb/f/f9/latest/20191015213849/Wrecking_Ball_Infobox_Manga.png/400px-Wrecking_Ball_Infobox_Manga.png",
   },
 ];
 
-// Personagens jogáveis e CPU
+// Todos os personagens disponíveis
 export const characters: Character[] = [
   {
     id: "johnny",
@@ -131,14 +152,6 @@ export const characters: Character[] = [
     quote: "Nyoho~! A lição número 5, Johnny... RESPEITE!",
   },
   {
-    id: "diego",
-    name: "Diego Brando",
-    stand: stands.find(s => s.id === "scary-monsters")!,
-    avatar: "https://static.jojowiki.com/images/thumb/e/ef/latest/20191015214412/Diego_Brando_Infobox_Manga.png/270px-Diego_Brando_Infobox_Manga.png",
-    isPlayable: false,
-    quote: "WRYYYYY! Eu sou o vencedor desta corrida!",
-  },
-  {
     id: "hot-pants",
     name: "Hot Pants",
     stand: stands.find(s => s.id === "cream-starter")!,
@@ -146,7 +159,62 @@ export const characters: Character[] = [
     isPlayable: true,
     quote: "Eu tenho meus próprios pecados a carregar...",
   },
+  {
+    id: "mountain-tim",
+    name: "Mountain Tim",
+    stand: stands.find(s => s.id === "oh-lonesome-me")!,
+    avatar: "https://static.jojowiki.com/images/thumb/8/89/latest/20191015214420/Mountain_Tim_Infobox_Manga.png/270px-Mountain_Tim_Infobox_Manga.png",
+    isPlayable: true,
+    quote: "Eu sou um cowboy de verdade!",
+  },
+  {
+    id: "sandman",
+    name: "Sandman",
+    stand: stands.find(s => s.id === "in-a-silent-way")!,
+    avatar: "https://static.jojowiki.com/images/thumb/5/54/latest/20191015214428/Sandman_Infobox_Manga.png/270px-Sandman_Infobox_Manga.png",
+    isPlayable: true,
+    quote: "Eu corro mais rápido que qualquer cavalo!",
+  },
+  {
+    id: "pocoloco",
+    name: "Pocoloco",
+    stand: stands.find(s => s.id === "hey-ya")!,
+    avatar: "https://static.jojowiki.com/images/thumb/9/91/latest/20191015214423/Pocoloco_Infobox_Manga.png/270px-Pocoloco_Infobox_Manga.png",
+    isPlayable: true,
+    quote: "Eu nasci sortudo! A sorte está do meu lado!",
+  },
+  {
+    id: "wekapipo",
+    name: "Wekapipo",
+    stand: stands.find(s => s.id === "wrecking-ball")!,
+    avatar: "https://static.jojowiki.com/images/thumb/c/c5/latest/20191015214436/Wekapipo_Infobox_Manga.png/270px-Wekapipo_Infobox_Manga.png",
+    isPlayable: true,
+    quote: "Estas esferas são o símbolo do meu poder!",
+  },
+  {
+    id: "lucy",
+    name: "Lucy Steel",
+    stand: stands.find(s => s.id === "ticket-to-ride")!,
+    avatar: "https://static.jojowiki.com/images/thumb/8/82/latest/20191015214422/Lucy_Steel_Infobox_Manga.png/270px-Lucy_Steel_Infobox_Manga.png",
+    isPlayable: true,
+    quote: "Eu farei qualquer coisa para proteger quem eu amo!",
+  },
+  {
+    id: "diego",
+    name: "Diego Brando",
+    stand: stands.find(s => s.id === "scary-monsters")!,
+    avatar: "https://static.jojowiki.com/images/thumb/e/ef/latest/20191015214412/Diego_Brando_Infobox_Manga.png/270px-Diego_Brando_Infobox_Manga.png",
+    isPlayable: false,
+    quote: "WRYYYYY! Eu sou o vencedor desta corrida!",
+  },
 ];
+
+// Função para sortear personagens aleatórios para seleção
+export function getRandomPlayableCharacters(count: number = 4): Character[] {
+  const playable = characters.filter(c => c.isPlayable);
+  const shuffled = [...playable].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, Math.min(count, playable.length));
+}
 
 // Etapas da corrida baseadas na Steel Ball Run
 export const raceStages: RaceStage[] = [
@@ -167,7 +235,7 @@ export type Operation = '+' | '-' | '×' | '÷';
 
 export const operations: Operation[] = ['+', '-', '×', '÷'];
 
-// Gerar problema matemático
+// Gerar problema matemático - APENAS NÚMEROS DE 1 A 9
 export interface MathProblem {
   cardA: number;
   cardB: number;
@@ -187,53 +255,46 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
-export function generateMathProblem(difficulty: 'easy' | 'medium' | 'hard' = 'medium'): MathProblem {
-  let maxNum: number;
-  
-  switch (difficulty) {
-    case 'easy':
-      maxNum = 10;
-      break;
-    case 'medium':
-      maxNum = 12;
-      break;
-    case 'hard':
-      maxNum = 15;
-      break;
-  }
-
+export function generateMathProblem(): MathProblem {
   const operation = operations[Math.floor(Math.random() * operations.length)];
   let cardA: number;
   let cardB: number;
   let answer: number;
 
+  // Usar apenas números de 1 a 9
   switch (operation) {
     case '+':
-      cardA = Math.floor(Math.random() * maxNum) + 1;
-      cardB = Math.floor(Math.random() * maxNum) + 1;
+      cardA = Math.floor(Math.random() * 9) + 1; // 1-9
+      cardB = Math.floor(Math.random() * 9) + 1; // 1-9
       answer = cardA + cardB;
       break;
     case '-':
-      cardA = Math.floor(Math.random() * maxNum) + 1;
-      cardB = Math.floor(Math.random() * cardA) + 1;
+      cardA = Math.floor(Math.random() * 9) + 1; // 1-9
+      cardB = Math.floor(Math.random() * cardA) + 1; // 1 até cardA
       answer = cardA - cardB;
       break;
     case '×':
-      cardA = Math.floor(Math.random() * maxNum) + 1;
-      cardB = Math.floor(Math.random() * 10) + 1;
+      cardA = Math.floor(Math.random() * 9) + 1; // 1-9
+      cardB = Math.floor(Math.random() * 9) + 1; // 1-9
       answer = cardA * cardB;
       break;
     case '÷':
-      cardB = Math.floor(Math.random() * 10) + 1;
-      answer = Math.floor(Math.random() * 10) + 1;
-      cardA = cardB * answer;
+      cardB = Math.floor(Math.random() * 8) + 1; // 1-8 (divisor)
+      answer = Math.floor(Math.random() * 9) + 1; // 1-9 (resultado)
+      cardA = cardB * answer; // cardA pode ser maior que 9
+      // Se cardA > 9, ajustar para manter visual simples
+      if (cardA > 9) {
+        cardB = Math.floor(Math.random() * 3) + 1; // 1-3
+        answer = Math.floor(Math.random() * 3) + 1; // 1-3
+        cardA = cardB * answer;
+      }
       break;
   }
 
   // Gerar opções erradas próximas à resposta
   const wrongOptions = new Set<number>();
   while (wrongOptions.size < 3) {
-    const offset = Math.floor(Math.random() * 10) - 5;
+    const offset = Math.floor(Math.random() * 6) - 3;
     const wrongAnswer = answer + offset;
     if (wrongAnswer !== answer && wrongAnswer >= 0) {
       wrongOptions.add(wrongAnswer);
@@ -262,6 +323,7 @@ export const victoryQuotes = [
   "「Arigato... Gyro」",
   "「Eu finalmente consegui me levantar!」",
   "「O caminho para o céu está aberto!」",
+  "「Nyoho~! Essa é a técnica do Zeppeli!」",
 ];
 
 export const defeatQuotes = [
@@ -269,6 +331,7 @@ export const defeatQuotes = [
   "「A corrida ainda não acabou...」",
   "「Eu vou me levantar de novo!」",
   "「Próxima vez... eu vou vencer!」",
+  "「WRYYYY! Diego venceu!」",
 ];
 
 export const correctAnswerQuotes = [
@@ -277,6 +340,8 @@ export const correctAnswerQuotes = [
   "「SPIN!」",
   "「Nyoho~!」",
   "「Excelente!」",
+  "「A rotação é perfeita!」",
+  "「Isso é o Spin!」",
 ];
 
 export const wrongAnswerQuotes = [
@@ -284,4 +349,26 @@ export const wrongAnswerQuotes = [
   "「Useless... useless!」",
   "「Diego avança!」",
   "「Scary Monsters!」",
+  "「Muda muda muda!」",
+];
+
+// Citações de incentivo durante o jogo
+export const encouragementQuotes = [
+  "「Confie na rotação!」",
+  "「O Spin vai te guiar!」",
+  "「Acredite no caminho dourado!」",
+  "「Nyoho~! Você consegue!」",
+  "「A rotação infinita está dentro de você!」",
+  "「Pense como um cavaleiro!」",
+  "「O destino está do seu lado!」",
+  "「Essa é a técnica Zeppeli!」",
+];
+
+// Citações de provocação do Diego
+export const diegoTaunts = [
+  "「Você é muito lento, patético!」",
+  "「Eu serei o primeiro a cruzar a linha!」",
+  "「WRYYY! Seus esforços são inúteis!」",
+  "「Scary Monsters vai te devorar!」",
+  "「Você nunca vai me alcançar!」",
 ];

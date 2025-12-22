@@ -20,15 +20,21 @@ export function StandCard({
   style 
 }: StandCardProps) {
   const sizeClasses = {
-    sm: "w-20 h-28 text-2xl",
-    md: "w-28 h-40 text-4xl",
-    lg: "w-36 h-52 text-5xl",
+    sm: "w-24 h-36",
+    md: "w-36 h-52",
+    lg: "w-44 h-64",
+  };
+
+  const numberSizes = {
+    sm: "text-3xl",
+    md: "text-5xl",
+    lg: "text-6xl",
   };
 
   return (
     <div
       className={cn(
-        "relative rounded-lg border-4 overflow-hidden transition-all duration-300",
+        "relative rounded-xl border-4 overflow-hidden transition-all duration-300",
         "bg-gradient-to-br from-card via-card to-muted",
         isRevealed && "stand-glow",
         sizeClasses[size],
@@ -36,7 +42,7 @@ export function StandCard({
       )}
       style={{
         borderColor: isRevealed ? stand.color : "hsl(var(--border))",
-        boxShadow: isRevealed ? `0 0 30px ${stand.color}60, inset 0 0 20px ${stand.color}20` : undefined,
+        boxShadow: isRevealed ? `0 0 40px ${stand.color}60, inset 0 0 30px ${stand.color}20` : undefined,
         ...style,
       }}
     >
@@ -48,75 +54,84 @@ export function StandCard({
       {/* Card front */}
       {isRevealed && (
         <>
-          {/* Stand glow background */}
-          <div 
-            className="absolute inset-0 opacity-30"
-            style={{
-              background: `radial-gradient(circle at center, ${stand.color}, transparent 70%)`,
-            }}
-          />
+          {/* Stand Image - FOCO PRINCIPAL */}
+          <div className="absolute inset-0">
+            <img 
+              src={stand.image}
+              alt={stand.name}
+              className="w-full h-full object-cover object-top opacity-90"
+              onError={(e) => {
+                // Fallback gradient if image fails
+                (e.target as HTMLImageElement).style.display = 'none';
+              }}
+            />
+            {/* Gradient overlay for better number visibility */}
+            <div 
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(180deg, ${stand.color}40 0%, transparent 40%, transparent 60%, ${stand.color}60 100%)`,
+              }}
+            />
+          </div>
 
-          {/* Diagonal pattern */}
+          {/* Number - TOP LEFT - GRANDE E VISÍVEL */}
           <div 
-            className="absolute inset-0 opacity-20"
-            style={{
-              background: `repeating-linear-gradient(45deg, transparent, transparent 10px, ${stand.color}20 10px, ${stand.color}20 12px)`
+            className={cn(
+              "absolute top-2 left-2 font-bebas font-bold z-10",
+              numberSizes[size]
+            )}
+            style={{ 
+              color: "white",
+              textShadow: `3px 3px 0 ${stand.color}, -2px -2px 0 rgba(0,0,0,0.8), 0 0 20px ${stand.color}`,
+              WebkitTextStroke: `2px ${stand.color}`,
             }}
-          />
-
-          {/* Number - top left */}
-          <div 
-            className="absolute top-2 left-2 font-bebas drop-shadow-[2px_2px_0_rgba(0,0,0,0.5)]"
-            style={{ color: stand.color }}
           >
             {value}
           </div>
           
-          {/* Number - bottom right (rotated) */}
+          {/* Number - BOTTOM RIGHT (rotated) */}
           <div 
-            className="absolute bottom-2 right-2 font-bebas rotate-180 drop-shadow-[2px_2px_0_rgba(0,0,0,0.5)]"
-            style={{ color: stand.color }}
+            className={cn(
+              "absolute bottom-2 right-2 font-bebas font-bold rotate-180 z-10",
+              numberSizes[size]
+            )}
+            style={{ 
+              color: "white",
+              textShadow: `3px 3px 0 ${stand.color}, -2px -2px 0 rgba(0,0,0,0.8), 0 0 20px ${stand.color}`,
+              WebkitTextStroke: `2px ${stand.color}`,
+            }}
           >
             {value}
           </div>
 
-          {/* Stand name area */}
-          <div className="flex items-center justify-center h-full">
-            <div 
-              className="font-bebas tracking-wide text-center px-2 leading-tight drop-shadow-[1px_1px_0_rgba(0,0,0,0.5)]"
+          {/* Stand name at bottom */}
+          <div 
+            className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2 z-10"
+          >
+            <p 
+              className="font-bebas text-center text-xs tracking-wider"
               style={{ 
                 color: stand.color,
-                fontSize: size === "lg" ? "1rem" : size === "md" ? "0.8rem" : "0.6rem",
                 textShadow: `0 0 10px ${stand.color}80`
               }}
             >
               {stand.name}
-            </div>
+            </p>
           </div>
 
-          {/* Menacing symbols - more dramatic */}
+          {/* Menacing symbols */}
           <div 
-            className="absolute -top-1 -right-1 text-xl animate-menacing font-bebas"
-            style={{ color: stand.color, opacity: 0.8 }}
+            className="absolute top-1 right-1 text-xl animate-menacing font-bebas z-20"
+            style={{ color: stand.color, opacity: 0.9 }}
           >
             ゴ
           </div>
           <div 
-            className="absolute -bottom-1 -left-1 text-xl animate-menacing font-bebas" 
+            className="absolute bottom-8 left-1 text-lg animate-menacing font-bebas z-20" 
             style={{ 
               color: stand.color, 
-              opacity: 0.8,
+              opacity: 0.7,
               animationDelay: "0.5s" 
-            }}
-          >
-            ゴ
-          </div>
-          <div 
-            className="absolute top-1/2 -right-1 text-lg animate-menacing font-bebas" 
-            style={{ 
-              color: stand.color, 
-              opacity: 0.5,
-              animationDelay: "1s" 
             }}
           >
             ゴ
