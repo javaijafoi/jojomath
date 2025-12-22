@@ -61,6 +61,10 @@ export default {
         },
         menacing: "hsl(var(--menacing))",
         "stand-glow": "hsl(var(--stand-glow))",
+        "answer-1": "hsl(var(--answer-1))",
+        "answer-2": "hsl(var(--answer-2))",
+        "answer-3": "hsl(var(--answer-3))",
+        "answer-4": "hsl(var(--answer-4))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -90,7 +94,11 @@ export default {
         },
         "menacing-float": {
           "0%, 100%": { transform: "translateY(0) rotate(-5deg)", opacity: "0.8" },
-          "50%": { transform: "translateY(-20px) rotate(5deg)", opacity: "1" },
+          "50%": { transform: "translateY(-25px) rotate(5deg)", opacity: "1" },
+        },
+        "glow-pulse": {
+          "0%, 100%": { opacity: "1", filter: "brightness(1)" },
+          "50%": { opacity: "0.8", filter: "brightness(1.3)" },
         },
       },
       animation: {
@@ -99,7 +107,8 @@ export default {
         "fade-in": "fade-in 0.3s ease-out",
         "scale-in": "scale-in 0.2s ease-out",
         "slide-in-right": "slide-in-right 0.3s ease-out",
-        "menacing": "menacing-float 2s ease-in-out infinite",
+        "menacing": "menacing-float 2.5s ease-in-out infinite",
+        "glow-pulse": "glow-pulse 2s ease-in-out infinite",
       },
     },
   },

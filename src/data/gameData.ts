@@ -1,4 +1,4 @@
-// Steel Ball Run Game Data
+// Steel Ball Run - Dados do Jogo
 
 export interface Stand {
   id: string;
@@ -14,155 +14,160 @@ export interface Character {
   stand: Stand;
   avatar: string;
   isPlayable: boolean;
+  quote: string;
 }
 
 export interface RaceStage {
   id: number;
   name: string;
-  distance: number; // km from start
+  distance: number;
   description: string;
 }
 
-// Stands from Steel Ball Run
+// Stands da Steel Ball Run
 export const stands: Stand[] = [
   {
     id: "tusk-act1",
     name: "Tusk ACT 1",
     user: "Johnny Joestar",
-    description: "Nail bullets with rotational energy",
-    color: "hsl(210, 80%, 55%)",
+    description: "Balas de unha com energia rotacional",
+    color: "hsl(200, 100%, 55%)",
   },
   {
     id: "tusk-act4",
     name: "Tusk ACT 4",
     user: "Johnny Joestar",
-    description: "Infinite rotation power",
-    color: "hsl(210, 90%, 60%)",
+    description: "O poder da rotação infinita",
+    color: "hsl(200, 100%, 60%)",
   },
   {
     id: "ball-breaker",
     name: "Ball Breaker",
     user: "Gyro Zeppeli",
-    description: "Golden Spin manifestation",
-    color: "hsl(145, 70%, 45%)",
+    description: "Manifestação do Spin Dourado",
+    color: "hsl(140, 80%, 50%)",
   },
   {
     id: "scary-monsters",
     name: "Scary Monsters",
     user: "Diego Brando",
-    description: "Transform into dinosaurs",
-    color: "hsl(0, 75%, 50%)",
+    description: "Transformação em dinossauros",
+    color: "hsl(0, 85%, 55%)",
   },
   {
     id: "d4c",
     name: "D4C - Love Train",
     user: "Funny Valentine",
-    description: "Dimensional travel and misfortune redirection",
-    color: "hsl(280, 60%, 50%)",
+    description: "Viagem dimensional e redirecionamento de infortúnio",
+    color: "hsl(280, 70%, 55%)",
   },
   {
     id: "cream-starter",
     name: "Cream Starter",
     user: "Hot Pants",
-    description: "Flesh manipulation spray",
-    color: "hsl(340, 60%, 55%)",
+    description: "Spray de manipulação de carne",
+    color: "hsl(330, 70%, 60%)",
   },
   {
     id: "in-a-silent-way",
     name: "In a Silent Way",
     user: "Sandman",
-    description: "Sound manipulation as physical attacks",
-    color: "hsl(35, 70%, 50%)",
+    description: "Manipulação de som como ataques físicos",
+    color: "hsl(35, 80%, 55%)",
   },
   {
     id: "mandom",
     name: "Mandom",
     user: "Ringo Roadagain",
-    description: "Rewind time by 6 seconds",
-    color: "hsl(200, 50%, 40%)",
+    description: "Retrocede o tempo em 6 segundos",
+    color: "hsl(200, 60%, 45%)",
   },
   {
     id: "catch-the-rainbow",
     name: "Catch the Rainbow",
     user: "Blackmore",
-    description: "Control and solidify raindrops",
-    color: "hsl(220, 60%, 60%)",
+    description: "Controla e solidifica gotas de chuva",
+    color: "hsl(220, 70%, 65%)",
   },
   {
     id: "civil-war",
     name: "Civil War",
     user: "Axl RO",
-    description: "Materialize discarded things and guilt",
-    color: "hsl(180, 40%, 45%)",
+    description: "Materializa coisas descartadas e culpa",
+    color: "hsl(180, 50%, 50%)",
   },
   {
     id: "ticket-to-ride",
     name: "Ticket to Ride",
     user: "Lucy Steel",
-    description: "Miraculous protection",
-    color: "hsl(45, 90%, 60%)",
+    description: "Proteção milagrosa",
+    color: "hsl(45, 100%, 65%)",
   },
   {
     id: "oh-lonesome-me",
     name: "Oh! Lonesome Me",
     user: "Mountain Tim",
-    description: "Rope manipulation and body separation",
-    color: "hsl(25, 60%, 45%)",
+    description: "Manipulação de corda e separação corporal",
+    color: "hsl(25, 70%, 50%)",
   },
 ];
 
-// Playable and CPU characters
+// Personagens jogáveis e CPU
 export const characters: Character[] = [
   {
     id: "johnny",
     name: "Johnny Joestar",
     stand: stands.find(s => s.id === "tusk-act4")!,
-    avatar: "🏇",
+    avatar: "https://static.jojowiki.com/images/thumb/3/3c/latest/20210619211157/Johnny_Joestar_Infobox_Manga.png/270px-Johnny_Joestar_Infobox_Manga.png",
     isPlayable: true,
+    quote: "Eu vou continuar avançando... não importa o quê!",
   },
   {
     id: "gyro",
     name: "Gyro Zeppeli",
     stand: stands.find(s => s.id === "ball-breaker")!,
-    avatar: "🎱",
+    avatar: "https://static.jojowiki.com/images/thumb/1/11/latest/20191015214506/Gyro_Zeppeli_Infobox_Manga.png/270px-Gyro_Zeppeli_Infobox_Manga.png",
     isPlayable: true,
+    quote: "Nyoho~! A lição número 5, Johnny... RESPEITE!",
   },
   {
     id: "diego",
     name: "Diego Brando",
     stand: stands.find(s => s.id === "scary-monsters")!,
-    avatar: "🦖",
-    isPlayable: false, // CPU opponent
+    avatar: "https://static.jojowiki.com/images/thumb/e/ef/latest/20191015214412/Diego_Brando_Infobox_Manga.png/270px-Diego_Brando_Infobox_Manga.png",
+    isPlayable: false,
+    quote: "WRYYYYY! Eu sou o vencedor desta corrida!",
   },
   {
     id: "hot-pants",
     name: "Hot Pants",
     stand: stands.find(s => s.id === "cream-starter")!,
-    avatar: "✝️",
+    avatar: "https://static.jojowiki.com/images/thumb/6/6c/latest/20191015214421/Hot_Pants_Infobox_Manga.png/270px-Hot_Pants_Infobox_Manga.png",
     isPlayable: true,
+    quote: "Eu tenho meus próprios pecados a carregar...",
   },
 ];
 
-// Race stages based on Steel Ball Run
+// Etapas da corrida baseadas na Steel Ball Run
 export const raceStages: RaceStage[] = [
-  { id: 1, name: "San Diego", distance: 0, description: "Starting point" },
-  { id: 2, name: "Arizona Desert", distance: 1500, description: "First stage - 15,000 meters" },
-  { id: 3, name: "Monument Valley", distance: 2800, description: "Second stage" },
-  { id: 4, name: "Rocky Mountains", distance: 4200, description: "Third stage - Mountain crossing" },
-  { id: 5, name: "Kansas City", distance: 5500, description: "Fourth stage" },
-  { id: 6, name: "Chicago", distance: 6800, description: "Fifth stage" },
-  { id: 7, name: "Philadelphia", distance: 8000, description: "Sixth stage" },
-  { id: 8, name: "New York", distance: 9000, description: "Final destination!" },
+  { id: 1, name: "San Diego", distance: 0, description: "Ponto de partida" },
+  { id: 2, name: "Deserto do Arizona", distance: 1500, description: "Primeira etapa - 15.000 metros" },
+  { id: 3, name: "Monument Valley", distance: 2800, description: "Segunda etapa" },
+  { id: 4, name: "Montanhas Rochosas", distance: 4200, description: "Terceira etapa - Travessia das montanhas" },
+  { id: 5, name: "Kansas City", distance: 5500, description: "Quarta etapa" },
+  { id: 6, name: "Chicago", distance: 6800, description: "Quinta etapa" },
+  { id: 7, name: "Filadélfia", distance: 8000, description: "Sexta etapa" },
+  { id: 8, name: "Nova York", distance: 9000, description: "Destino final!" },
 ];
 
-export const TOTAL_RACE_DISTANCE = 9000; // Simplified distance units
+export const TOTAL_RACE_DISTANCE = 9000;
 
-// Math operations
+// Operações matemáticas
 export type Operation = '+' | '-' | '×' | '÷';
 
 export const operations: Operation[] = ['+', '-', '×', '÷'];
 
-// Generate a math problem
+// Gerar problema matemático
 export interface MathProblem {
   cardA: number;
   cardB: number;
@@ -225,7 +230,7 @@ export function generateMathProblem(difficulty: 'easy' | 'medium' | 'hard' = 'me
       break;
   }
 
-  // Generate wrong options close to the answer
+  // Gerar opções erradas próximas à resposta
   const wrongOptions = new Set<number>();
   while (wrongOptions.size < 3) {
     const offset = Math.floor(Math.random() * 10) - 5;
@@ -237,7 +242,7 @@ export function generateMathProblem(difficulty: 'easy' | 'medium' | 'hard' = 'me
 
   const options = shuffleArray([answer, ...Array.from(wrongOptions)]);
 
-  // Assign random stands to cards
+  // Atribuir stands aleatórios às cartas
   const shuffledStands = shuffleArray(stands);
   
   return {
@@ -250,3 +255,33 @@ export function generateMathProblem(difficulty: 'easy' | 'medium' | 'hard' = 'me
     standB: shuffledStands[1],
   };
 }
+
+// Citações aleatórias para momentos do jogo
+export const victoryQuotes = [
+  "「Esta é... a rotação infinita!」",
+  "「Arigato... Gyro」",
+  "「Eu finalmente consegui me levantar!」",
+  "「O caminho para o céu está aberto!」",
+];
+
+export const defeatQuotes = [
+  "「Isso é... o destino?」",
+  "「A corrida ainda não acabou...」",
+  "「Eu vou me levantar de novo!」",
+  "「Próxima vez... eu vou vencer!」",
+];
+
+export const correctAnswerQuotes = [
+  "「GO! GO! GO!」",
+  "「ORA ORA ORA!」",
+  "「SPIN!」",
+  "「Nyoho~!」",
+  "「Excelente!」",
+];
+
+export const wrongAnswerQuotes = [
+  "「WRYYYYY!」",
+  "「Useless... useless!」",
+  "「Diego avança!」",
+  "「Scary Monsters!」",
+];
