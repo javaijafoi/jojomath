@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Character, getRandomPlayableCharacters } from "@/data/gameData";
+import { Character, characters, getRandomPlayableCharacters } from "@/data/gameData";
 import { MenacingText } from "./MenacingText";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +14,8 @@ export function CharacterSelect({ onSelect }: CharacterSelectProps) {
   useEffect(() => {
     setAvailableCharacters(getRandomPlayableCharacters(4));
   }, []);
+
+  const diego = characters.find((c) => c.id === "diego");
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden">
@@ -93,7 +95,7 @@ export function CharacterSelect({ onSelect }: CharacterSelectProps) {
         {/* VS Diego - mais compacto */}
         <div className="mt-6 flex items-center justify-center gap-4 p-3 bg-destructive/10 rounded-lg border border-destructive/30 max-w-sm mx-auto">
           <img 
-            src="https://static.jojowiki.com/images/thumb/e/ef/latest/20191015214412/Diego_Brando_Infobox_Manga.png/270px-Diego_Brando_Infobox_Manga.png"
+            src={diego?.avatar}
             alt="Diego"
             className="w-16 h-16 rounded-full object-cover object-top border-2 border-destructive"
           />
