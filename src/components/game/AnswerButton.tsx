@@ -50,40 +50,32 @@ export function AnswerButton({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "w-full h-20 md:h-24 text-5xl md:text-6xl font-bebas transition-all duration-200",
-        "border-4 hover:scale-105 active:scale-95 relative overflow-hidden",
+        "w-full h-12 md:h-14 text-3xl md:text-4xl font-bebas transition-all duration-200",
+        "border-2 rounded-lg hover:scale-105 active:scale-95 relative overflow-hidden",
         state === "idle" && [
           colors.bg,
           colors.border,
-          colors.glow,
           colors.hover,
           "text-background",
+          "shadow-[0_0_12px_hsl(var(--answer-" + (index + 1) + ")/0.4)]",
         ],
         state === "correct" && [
-          "bg-gyro text-background pulse-gold border-gyro",
-          "shadow-[0_0_40px_hsl(140,80%,50%/0.8)]",
+          "bg-gyro text-gyro-foreground border-gyro",
+          "shadow-[0_0_25px_hsl(140,80%,50%/0.7)]",
         ],
         state === "wrong" && [
-          "bg-destructive text-destructive-foreground shake border-destructive",
-          "shadow-[0_0_40px_hsl(0,85%,55%/0.8)]",
+          "bg-destructive text-destructive-foreground border-destructive",
+          "shadow-[0_0_25px_hsl(0,85%,55%/0.7)]",
         ]
       )}
-      style={{
-        animationDelay: `${index * 0.1}s`,
-      }}
     >
-      {/* Menacing effect on hover */}
-      <span className="absolute -top-1 -right-1 text-lg opacity-0 group-hover:opacity-70 animate-menacing font-bebas">
-        ゴ
-      </span>
-      
       {/* Number with shadow for better visibility */}
-      <span className="relative z-10 drop-shadow-[2px_2px_0_rgba(0,0,0,0.3)]">
+      <span className="relative z-10 drop-shadow-[1px_1px_0_rgba(0,0,0,0.3)]">
         {value}
       </span>
       
       {/* Inner glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/15 to-transparent pointer-events-none" />
     </Button>
   );
 }
