@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">Steel Ball Run Math</title>
+  <desc id="desc">Social preview image for the Steel Ball Run Math application.</desc>
+  <defs>
+    <linearGradient id="night-run" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#2b1e38" />
+      <stop offset="50%" stop-color="#312b4b" />
+      <stop offset="100%" stop-color="#1c1f2f" />
+    </linearGradient>
+    <linearGradient id="road" x1="50%" x2="50%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#d2c3ff" stop-opacity="0.12" />
+      <stop offset="40%" stop-color="#d2c3ff" stop-opacity="0.22" />
+      <stop offset="100%" stop-color="#d2c3ff" stop-opacity="0.38" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#night-run)" />
+  <path
+    d="M200 540 Q400 470 600 520 Q820 570 1000 500"
+    fill="none"
+    stroke="url(#road)"
+    stroke-width="50"
+    stroke-linecap="round"
+  />
+  <circle cx="940" cy="180" r="90" fill="#fddc7a" opacity="0.92" />
+  <g transform="translate(300 250)">
+    <rect x="-20" y="-30" width="320" height="200" rx="24" fill="#1f1830" opacity="0.6" />
+    <text x="0" y="40" font-family="Segoe UI Emoji, Apple Color Emoji, Noto Color Emoji, sans-serif" font-size="120">
+      🐎➗⚡
+    </text>
+  </g>
+  <text
+    x="600"
+    y="260"
+    text-anchor="middle"
+    fill="#f4f1ff"
+    font-family="Sora, Inter, 'Helvetica Neue', Arial, sans-serif"
+    font-size="80"
+    font-weight="700"
+    letter-spacing="2"
+  >
+    Steel Ball Run Math
+  </text>
+  <text
+    x="600"
+    y="340"
+    text-anchor="middle"
+    fill="#d7d1ff"
+    font-family="Inter, 'Helvetica Neue', Arial, sans-serif"
+    font-size="34"
+    font-weight="500"
+  >
+    Race through JoJo-inspired math challenges.
+  </text>
+  <text
+    x="600"
+    y="410"
+    text-anchor="middle"
+    fill="#d7d1ff"
+    font-family="Inter, 'Helvetica Neue', Arial, sans-serif"
+    font-size="28"
+  >
+    Solve fast, keep pace, and leave rivals in the dust.
+  </text>
+</svg>
