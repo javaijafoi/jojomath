@@ -29,7 +29,7 @@ export function useGameState() {
   const [state, setState] = useState<GameState>({
     phase: "menu",
     player: null,
-    cpu: characters.find(c => c.id === "diego")!,
+    cpu: characters.find(c => c.id === "diego") || characters[0],
     playerProgress: 0,
     cpuProgress: 0,
     currentProblem: null,
