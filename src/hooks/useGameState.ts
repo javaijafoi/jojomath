@@ -25,11 +25,19 @@ interface GameState {
 const ADVANCE_DISTANCE = 600; // Distance gained per correct answer
 const CPU_ADVANCE = 450; // Distance CPU gains when player is wrong or time runs out
 
+const getDefaultCpu = (): Character => {
+  const cpu = characters.find(c => c.id === "diego") || characters[0];
+  if (!cpu) {
+    throw new Error("No characters available for CPU opponent.");
+  }
+  return cpu;
+};
+
 export function useGameState() {
   const [state, setState] = useState<GameState>({
     phase: "menu",
     player: null,
-    cpu: characters.find(c => c.id === "diego") || characters[0],
+    cpu: getDefaultCpu(),
     playerProgress: 0,
     cpuProgress: 0,
     currentProblem: null,
