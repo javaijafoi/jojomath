@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { Character, MathProblem, correctAnswerQuotes, wrongAnswerQuotes, encouragementQuotes } from "@/data/gameData";
 import { StandCard } from "./StandCard";
 import { OperationBadge } from "./OperationBadge";
@@ -23,6 +23,7 @@ interface GameBoardProps {
 }
 
 const ROUND_TIME = 15;
+const FEEDBACK_DURATION = 1200;
 
 export function GameBoard({
   player,
@@ -43,48 +44,67 @@ export function GameBoard({
   const [feedbackQuote, setFeedbackQuote] = useState("");
   const [encouragement, setEncouragement] = useState("");
   const [showFeedback, setShowFeedback] = useState(false);
+  
+  // Refs para controle de timeouts e estado
+  const feedbackTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hasAnsweredRef = useRef(false);
 
+  // Cleanup do timeout ao desmontar ou resetar
+  const clearFeedbackTimeout = useCallback(() => {
+    if (feedbackTimeoutRef.current) {
+      clearTimeout(feedbackTimeoutRef.current);
+      feedbackTimeoutRef.current = null;
+    }
+  }, []);
+
+  // Reset estado quando muda o problema/rodada
   useEffect(() => {
+    clearFeedbackTimeout();
     setSelectedAnswer(null);
     setAnswerState("idle");
     setTimerKey(prev => prev + 1);
     setFeedbackQuote("");
     setShowFeedback(false);
+    hasAnsweredRef.current = false;
     setEncouragement(encouragementQuotes[Math.floor(Math.random() * encouragementQuotes.length)]);
-  }, [problem, round]);
+    
+    return () => clearFeedbackTimeout();
+  }, [problem, round, clearFeedbackTimeout]);
 
-  const handleAnswer = (answer: number) => {
-    if (isAnswering) return;
+  // Função para mostrar feedback e avançar
+  const showFeedbackAndAdvance = useCallback((isCorrect: boolean, onComplete: () => void) => {
+    const quotes = isCorrect ? correctAnswerQuotes : wrongAnswerQuotes;
+    setFeedbackQuote(quotes[Math.floor(Math.random() * quotes.length)]);
+    setAnswerState(isCorrect ? "correct" : "wrong");
+    setShowFeedback(true);
+    
+    clearFeedbackTimeout();
+    feedbackTimeoutRef.current = setTimeout(() => {
+      setShowFeedback(false);
+      onComplete();
+    }, FEEDBACK_DURATION);
+  }, [clearFeedbackTimeout]);
+
+  const handleAnswer = useCallback((answer: number) => {
+    // Previne múltiplas respostas
+    if (isAnswering || hasAnsweredRef.current) return;
+    hasAnsweredRef.current = true;
     
     setSelectedAnswer(answer);
     const isCorrect = answer === problem.answer;
-    setAnswerState(isCorrect ? "correct" : "wrong");
-    
-    const quotes = isCorrect ? correctAnswerQuotes : wrongAnswerQuotes;
-    setFeedbackQuote(quotes[Math.floor(Math.random() * quotes.length)]);
-    setShowFeedback(true);
     
     onSubmitAnswer(answer);
+    showFeedbackAndAdvance(isCorrect, onNextRound);
+  }, [isAnswering, problem.answer, onSubmitAnswer, onNextRound, showFeedbackAndAdvance]);
 
-    setTimeout(() => {
-      setShowFeedback(false);
-      onNextRound();
-    }, 1200);
-  };
-
-  const handleTimeUp = () => {
-    if (!isAnswering) {
-      setAnswerState("wrong");
-      setFeedbackQuote(wrongAnswerQuotes[Math.floor(Math.random() * wrongAnswerQuotes.length)]);
-      setShowFeedback(true);
-      onTimeUp();
-      
-      setTimeout(() => {
-        setShowFeedback(false);
-        onNextRound();
-      }, 1200);
-    }
-  };
+  const handleTimeUp = useCallback(() => {
+    // Previne chamadas duplicadas
+    if (isAnswering || hasAnsweredRef.current) return;
+    hasAnsweredRef.current = true;
+    
+    onTimeUp();
+    showFeedbackAndAdvance(false, onNextRound);
+  }, [isAnswering, onTimeUp, onNextRound, showFeedbackAndAdvance]);
 
   return (
     <div className="h-screen flex flex-col p-2 md:p-3 relative overflow-hidden">
@@ -144,11 +164,11 @@ export function GameBoard({
           key={timerKey}
           duration={ROUND_TIME}
           onTimeUp={handleTimeUp}
-          isRunning={!isAnswering}
+          isRunning={!isAnswering && !hasAnsweredRef.current}
         />
 
         {/* Citação de incentivo - apenas quando não respondendo */}
-        {!isAnswering && (
+        {!isAnswering && !showFeedback && (
           <div className="text-center">
             <p className="text-accent font-russo text-xs md:text-sm italic">{encouragement}</p>
           </div>
@@ -194,7 +214,7 @@ export function GameBoard({
               key={`${option}-${idx}`}
               value={option}
               onClick={() => handleAnswer(option)}
-              disabled={isAnswering}
+              disabled={isAnswering || showFeedback}
               state={
                 selectedAnswer === option
                   ? answerState
