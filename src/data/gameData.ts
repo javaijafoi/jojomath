@@ -294,11 +294,21 @@ export function generateMathProblem(): MathProblem {
 
   // Gerar opções erradas próximas à resposta
   const wrongOptions = new Set<number>();
-  while (wrongOptions.size < 3) {
-    const offset = Math.floor(Math.random() * 6) - 3;
+  let attempts = 0;
+  while (wrongOptions.size < 3 && attempts < 50) {
+    const offsetRange = attempts >= 10 ? 10 : 6;
+    const offset = Math.floor(Math.random() * offsetRange) - Math.floor(offsetRange / 2);
     const wrongAnswer = answer + offset;
     if (wrongAnswer !== answer && wrongAnswer >= 0) {
       wrongOptions.add(wrongAnswer);
+    }
+    attempts++;
+  }
+
+  while (wrongOptions.size < 3) {
+    const fallbackOption = Math.floor(Math.random() * 20);
+    if (fallbackOption !== answer && !wrongOptions.has(fallbackOption)) {
+      wrongOptions.add(fallbackOption);
     }
   }
 
