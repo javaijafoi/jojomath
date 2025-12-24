@@ -5,6 +5,7 @@ import { OperationBadge } from "./OperationBadge";
 import { AnswerButton } from "./AnswerButton";
 import { RaceMap } from "./RaceMap";
 import { Timer } from "./Timer";
+import { FeedbackOverlay } from "./FeedbackOverlay";
 import { cn } from "@/lib/utils";
 
 interface GameBoardProps {
@@ -41,13 +42,14 @@ export function GameBoard({
   const [timerKey, setTimerKey] = useState(0);
   const [feedbackQuote, setFeedbackQuote] = useState("");
   const [encouragement, setEncouragement] = useState("");
+  const [showFeedback, setShowFeedback] = useState(false);
 
   useEffect(() => {
     setSelectedAnswer(null);
     setAnswerState("idle");
     setTimerKey(prev => prev + 1);
     setFeedbackQuote("");
-    // Nova citação de incentivo a cada rodada
+    setShowFeedback(false);
     setEncouragement(encouragementQuotes[Math.floor(Math.random() * encouragementQuotes.length)]);
   }, [problem, round]);
 
@@ -60,58 +62,68 @@ export function GameBoard({
     
     const quotes = isCorrect ? correctAnswerQuotes : wrongAnswerQuotes;
     setFeedbackQuote(quotes[Math.floor(Math.random() * quotes.length)]);
+    setShowFeedback(true);
     
     onSubmitAnswer(answer);
 
     setTimeout(() => {
+      setShowFeedback(false);
       onNextRound();
-    }, 1500);
+    }, 1200);
   };
 
   const handleTimeUp = () => {
     if (!isAnswering) {
       setAnswerState("wrong");
       setFeedbackQuote(wrongAnswerQuotes[Math.floor(Math.random() * wrongAnswerQuotes.length)]);
+      setShowFeedback(true);
       onTimeUp();
       
       setTimeout(() => {
+        setShowFeedback(false);
         onNextRound();
-      }, 1500);
+      }, 1200);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col p-3 md:p-4 relative overflow-hidden">
-      {/* Background - mais sutil */}
+    <div className="h-screen flex flex-col p-2 md:p-3 relative overflow-hidden">
+      {/* Background */}
       <div className="absolute inset-0 speed-lines opacity-5" />
 
-      <div className="relative z-10 flex flex-col h-full max-w-5xl mx-auto w-full gap-3">
+      {/* Feedback Overlay */}
+      {showFeedback && answerState !== "idle" && (
+        <FeedbackOverlay state={answerState} quote={feedbackQuote} />
+      )}
+
+      <div className="relative z-10 flex flex-col h-full max-w-4xl mx-auto w-full gap-2">
         {/* Header compacto */}
-        <div className="flex justify-between items-center bg-card/40 rounded-lg p-2 border border-border/50 backdrop-blur-sm">
+        <div className="flex justify-between items-center bg-card/40 rounded-lg px-2 py-1.5 border border-border/50 backdrop-blur-sm">
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary">
+            <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-primary">
               <img 
                 src={player.avatar} 
                 alt={player.name}
+                loading="lazy"
                 className="w-full h-full object-cover object-top"
               />
             </div>
-            <div>
-              <p className="font-bebas text-sm text-foreground">{player.name}</p>
-              <p className="text-[10px]" style={{ color: player.stand.color }}>
+            <div className="hidden sm:block">
+              <p className="font-bebas text-sm text-foreground leading-none">{player.name}</p>
+              <p className="text-[9px] leading-none" style={{ color: player.stand.color }}>
                 {player.stand.name}
               </p>
             </div>
           </div>
           
           <div className="text-center">
-            <p className="font-bebas text-lg text-accent">
+            <p className="font-bebas text-base md:text-lg text-accent">
               RODADA {round}
             </p>
           </div>
 
           <div className="text-right">
-            <p className="font-bebas text-lg">
+            <p className="font-bebas text-base md:text-lg">
               <span className="text-success">{correctAnswers}</span>
               <span className="text-muted-foreground/50"> / </span>
               <span className="text-destructive">{wrongAnswers}</span>
@@ -135,16 +147,16 @@ export function GameBoard({
           isRunning={!isAnswering}
         />
 
-        {/* Citação de incentivo */}
+        {/* Citação de incentivo - apenas quando não respondendo */}
         {!isAnswering && (
-          <div className="text-center py-1">
-            <p className="text-accent font-russo text-sm italic">{encouragement}</p>
+          <div className="text-center">
+            <p className="text-accent font-russo text-xs md:text-sm italic">{encouragement}</p>
           </div>
         )}
 
-        {/* Cards and Operation - FOCO PRINCIPAL */}
-        <div className="flex-1 flex flex-col items-center justify-center gap-4 py-2">
-          <div className="flex items-center gap-3 md:gap-6">
+        {/* Cards and Operation - ÁREA PRINCIPAL */}
+        <div className="flex-1 flex flex-col items-center justify-center gap-2 md:gap-3 min-h-0">
+          <div className="flex items-center gap-2 md:gap-4">
             <StandCard
               value={problem.cardA}
               stand={problem.standA}
@@ -163,20 +175,20 @@ export function GameBoard({
             />
           </div>
 
-          {/* Equation display - clean */}
-          <div className="text-center bg-card/50 rounded-xl px-6 py-3 border border-border/50">
-            <p className="font-bebas text-4xl md:text-5xl text-foreground">
+          {/* Equation display */}
+          <div className="text-center bg-card/40 rounded-lg px-4 py-2 border border-border/50">
+            <p className="font-bebas text-2xl md:text-3xl text-foreground">
               <span style={{ color: problem.standA.color }}>{problem.cardA}</span>
-              <span className="text-accent mx-4">{problem.operation}</span>
+              <span className="text-accent mx-2 md:mx-3">{problem.operation}</span>
               <span style={{ color: problem.standB.color }}>{problem.cardB}</span>
-              <span className="text-primary ml-4">=</span>
-              <span className="text-primary ml-2">?</span>
+              <span className="text-primary ml-2 md:ml-3">=</span>
+              <span className="text-primary ml-1">?</span>
             </p>
           </div>
         </div>
 
-        {/* Answer buttons */}
-        <div className="grid grid-cols-2 gap-3 md:gap-4 pb-2">
+        {/* Answer buttons - grid compacto */}
+        <div className="grid grid-cols-2 gap-2 pb-1">
           {problem.options.map((option, idx) => (
             <AnswerButton
               key={`${option}-${idx}`}
@@ -194,18 +206,6 @@ export function GameBoard({
             />
           ))}
         </div>
-
-        {/* Feedback message */}
-        {isAnswering && (
-          <div className={cn(
-            "text-center py-2 font-bebas text-2xl md:text-3xl dramatic-enter",
-            answerState === "correct" ? "text-success" : "text-destructive"
-          )}>
-            <span className={answerState === "correct" ? "ora-effect inline-block" : ""}>
-              {feedbackQuote}
-            </span>
-          </div>
-        )}
       </div>
     </div>
   );

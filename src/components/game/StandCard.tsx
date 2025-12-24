@@ -20,21 +20,21 @@ export function StandCard({
   style 
 }: StandCardProps) {
   const sizeClasses = {
-    sm: "w-24 h-36",
-    md: "w-36 h-52",
-    lg: "w-44 h-64",
+    sm: "w-20 h-28",
+    md: "w-28 h-40",
+    lg: "w-32 h-44 md:w-36 md:h-52",
   };
 
   const numberSizes = {
-    sm: "text-3xl",
-    md: "text-5xl",
-    lg: "text-6xl",
+    sm: "text-2xl",
+    md: "text-4xl",
+    lg: "text-5xl",
   };
 
   return (
     <div
       className={cn(
-        "relative rounded-xl border-4 overflow-hidden transition-all duration-300",
+        "relative rounded-xl border-3 overflow-hidden transition-all duration-300",
         "bg-gradient-to-br from-card via-card to-muted",
         isRevealed && "stand-glow",
         sizeClasses[size],
@@ -42,7 +42,8 @@ export function StandCard({
       )}
       style={{
         borderColor: isRevealed ? stand.color : "hsl(var(--border))",
-        boxShadow: isRevealed ? `0 0 40px ${stand.color}60, inset 0 0 30px ${stand.color}20` : undefined,
+        boxShadow: isRevealed ? `0 0 30px ${stand.color}50, inset 0 0 20px ${stand.color}15` : undefined,
+        borderWidth: "3px",
         ...style,
       }}
     >
@@ -54,36 +55,36 @@ export function StandCard({
       {/* Card front */}
       {isRevealed && (
         <>
-          {/* Stand Image - FOCO PRINCIPAL */}
+          {/* Stand Image */}
           <div className="absolute inset-0">
             <img 
               src={stand.image}
               alt={stand.name}
+              loading="lazy"
               className="w-full h-full object-cover object-top opacity-90"
               onError={(e) => {
-                // Fallback gradient if image fails
                 (e.target as HTMLImageElement).style.display = 'none';
               }}
             />
-            {/* Gradient overlay for better number visibility */}
+            {/* Gradient overlay */}
             <div 
               className="absolute inset-0"
               style={{
-                background: `linear-gradient(180deg, ${stand.color}40 0%, transparent 40%, transparent 60%, ${stand.color}60 100%)`,
+                background: `linear-gradient(180deg, ${stand.color}35 0%, transparent 35%, transparent 65%, ${stand.color}50 100%)`,
               }}
             />
           </div>
 
-          {/* Number - TOP LEFT - GRANDE E VISÍVEL */}
+          {/* Number - TOP LEFT */}
           <div 
             className={cn(
-              "absolute top-2 left-2 font-bebas font-bold z-10",
+              "absolute top-1.5 left-1.5 font-bebas font-bold z-10",
               numberSizes[size]
             )}
             style={{ 
               color: "white",
-              textShadow: `3px 3px 0 ${stand.color}, -2px -2px 0 rgba(0,0,0,0.8), 0 0 20px ${stand.color}`,
-              WebkitTextStroke: `2px ${stand.color}`,
+              textShadow: `2px 2px 0 ${stand.color}, -1px -1px 0 rgba(0,0,0,0.7), 0 0 15px ${stand.color}`,
+              WebkitTextStroke: `1.5px ${stand.color}`,
             }}
           >
             {value}
@@ -92,13 +93,13 @@ export function StandCard({
           {/* Number - BOTTOM RIGHT (rotated) */}
           <div 
             className={cn(
-              "absolute bottom-2 right-2 font-bebas font-bold rotate-180 z-10",
+              "absolute bottom-1.5 right-1.5 font-bebas font-bold rotate-180 z-10",
               numberSizes[size]
             )}
             style={{ 
               color: "white",
-              textShadow: `3px 3px 0 ${stand.color}, -2px -2px 0 rgba(0,0,0,0.8), 0 0 20px ${stand.color}`,
-              WebkitTextStroke: `2px ${stand.color}`,
+              textShadow: `2px 2px 0 ${stand.color}, -1px -1px 0 rgba(0,0,0,0.7), 0 0 15px ${stand.color}`,
+              WebkitTextStroke: `1.5px ${stand.color}`,
             }}
           >
             {value}
@@ -106,33 +107,23 @@ export function StandCard({
 
           {/* Stand name at bottom */}
           <div 
-            className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2 z-10"
+            className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/85 to-transparent p-1.5 z-10"
           >
             <p 
-              className="font-bebas text-center text-xs tracking-wider"
+              className="font-bebas text-center text-[10px] tracking-wider"
               style={{ 
                 color: stand.color,
-                textShadow: `0 0 10px ${stand.color}80`
+                textShadow: `0 0 8px ${stand.color}70`
               }}
             >
               {stand.name}
             </p>
           </div>
 
-          {/* Menacing symbols */}
+          {/* Single menacing symbol */}
           <div 
-            className="absolute top-1 right-1 text-xl animate-menacing font-bebas z-20"
-            style={{ color: stand.color, opacity: 0.9 }}
-          >
-            ゴ
-          </div>
-          <div 
-            className="absolute bottom-8 left-1 text-lg animate-menacing font-bebas z-20" 
-            style={{ 
-              color: stand.color, 
-              opacity: 0.7,
-              animationDelay: "0.5s" 
-            }}
+            className="absolute top-0.5 right-0.5 text-base animate-menacing font-bebas z-20"
+            style={{ color: stand.color, opacity: 0.8 }}
           >
             ゴ
           </div>
