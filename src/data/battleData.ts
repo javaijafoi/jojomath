@@ -1,6 +1,6 @@
 // JoJo Math Fight - Battle Mode Data
 import { fighterImages } from '@/assets/fighters';
-import { generateMathProblem, MathProblem, Stand, stands } from './gameData';
+import { generateMathProblem, MathProblem, Operation, Stand, stands } from './gameData';
 
 export interface Fighter {
   id: string;
@@ -92,7 +92,7 @@ export const fighters: Fighter[] = [
     avatar: fighterImages.johnny,
     maxHp: 100,
     attackPower: 15,
-    specialAbility: "Infinite Rotation - Ignora defesa do inimigo",
+    specialAbility: "Quickdraw Spin - Bônus de dano e medidor em respostas rápidas",
     quote: "「A rotação infinita!」",
     victoryQuote: "「Arigato, Gyro...」",
     defeatQuote: "「Eu ainda não posso me levantar...」",
@@ -104,7 +104,7 @@ export const fighters: Fighter[] = [
     avatar: fighterImages.gyro,
     maxHp: 105,
     attackPower: 12,
-    specialAbility: "Golden Spin - Crítico garantido no próximo acerto",
+    specialAbility: "Golden Spin - Dano extra em multiplicação e divisão",
     quote: "「Nyoho~!」",
     victoryQuote: "「Esta é a técnica Zeppeli!」",
     defeatQuote: "「Johnny... continue correndo!」",
@@ -126,9 +126,9 @@ export const fighters: Fighter[] = [
     name: "Funny Valentine",
     stand: "D4C - Love Train",
     avatar: fighterImages.valentine,
-    maxHp: 120,
+    maxHp: 150,
     attackPower: 10,
-    specialAbility: "Love Train - Reduz dano recebido em 50%",
+    specialAbility: "Love Train - Tanque com redução de 50% do dano recebido",
     quote: "「Dojyaaan~!」",
     victoryQuote: "「Pela América, eu venci!」",
     defeatQuote: "「Meus ideais... foram em vão?」",
@@ -206,6 +206,17 @@ export const SPECIAL_MULTIPLIER = 3;
 export const WRONG_ANSWER_DAMAGE = 15;
 export const TIMEOUT_DAMAGE = 20;
 export const MAX_COMBO_FOR_SPECIAL = 5;
+export const BATTLE_QUESTION_DURATION = 12;
+
+// Fighter perks & modifiers
+export const HARD_OPERATION_TYPES: Operation[] = ['×', '÷'];
+export const GYRO_HARD_OPERATION_BONUS = 0.3; // +30% damage on hard ops
+
+export const JOHNNY_QUICK_ANSWER_WINDOW = 4; // seconds to keep quick bonus
+export const JOHNNY_QUICK_DAMAGE_BONUS = 4;
+export const JOHNNY_QUICK_METER_BONUS = 1;
+
+export const VALENTINE_DAMAGE_REDUCTION = 0.5;
 
 // Re-export math problem generation for battle mode
 export { generateMathProblem, type MathProblem };
