@@ -49,7 +49,7 @@ export function FighterSelect({ onSelect }: FighterSelectProps) {
       <div className="absolute inset-0 pointer-events-none opacity-30" style={{ backgroundImage: "linear-gradient(120deg, transparent 0%, transparent 45%, rgba(255,255,255,0.08) 50%, transparent 55%, transparent 100%)", backgroundSize: "18px 18px" }} />
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.08),transparent_45%)]" />
 
-      <div className="relative z-10 flex flex-col items-center justify-center px-4 py-10 lg:py-14 max-w-6xl mx-auto">
+      <div className="relative z-10 flex flex-col items-center justify-center px-4 sm:px-6 py-10 lg:py-14 max-w-6xl mx-auto space-y-8">
         <div className="text-center mb-8 dramatic-enter">
           <MenacingText size="md" className="text-destructive drop-shadow-[0_0_25px_hsl(var(--destructive)/0.45)]">
             CHOOSE YOUR FIGHTER
@@ -59,7 +59,7 @@ export function FighterSelect({ onSelect }: FighterSelectProps) {
           </p>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr] w-full">
+        <div className="grid gap-8 lg:gap-6 lg:grid-cols-[1.2fr_1fr] w-full">
           <div className="relative rounded-2xl border border-primary/30 bg-gradient-to-br from-card/70 via-card/40 to-card/20 backdrop-blur-xl overflow-hidden shadow-[0_0_35px_rgba(0,0,0,0.35)]">
             <div className="absolute inset-0 opacity-25 pointer-events-none" style={{ background: "linear-gradient(135deg, transparent 55%, hsl(var(--primary)/0.6) 65%, transparent 75%), linear-gradient(-135deg, transparent 55%, hsl(var(--accent)/0.6) 65%, transparent 75%)" }} />
             <div className="absolute -right-16 -top-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
@@ -75,7 +75,7 @@ export function FighterSelect({ onSelect }: FighterSelectProps) {
                 </div>
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-2 gap-3">
                 {availableFighters.map((fighter, index) => (
                   <button
                     key={fighter.id}
@@ -87,7 +87,9 @@ export function FighterSelect({ onSelect }: FighterSelectProps) {
                       "group relative flex items-center gap-4 p-3 rounded-xl border transition-all duration-300",
                       "bg-gradient-to-r from-card/70 to-card/30 hover:from-primary/10 hover:to-primary/0",
                       "border-primary/25 hover:border-primary/70 hover:shadow-[0_0_20px_hsl(var(--primary)/0.35)]",
-                      "disabled:opacity-50 disabled:cursor-not-allowed disabled:border-muted/30",
+                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                      "active:scale-[0.99]",
+                      "disabled:opacity-50 disabled:cursor-not-allowed disabled:border-muted/30 disabled:scale-100",
                       selectedFighter?.id === fighter.id
                         ? "border-accent shadow-[0_0_25px_hsl(var(--accent)/0.45)] ring-4 ring-accent/30 scale-[1.02]"
                         : focusedFighter?.id === fighter.id
@@ -108,18 +110,18 @@ export function FighterSelect({ onSelect }: FighterSelectProps) {
                       </div>
                     </div>
 
-                    <div className="flex-1 space-y-1 text-left">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-bebas text-xl text-primary tracking-wide">{fighter.name}</h3>
+                    <div className="flex-1 space-y-1 text-left min-w-0">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <h3 className="font-bebas text-xl text-primary tracking-wide truncate max-w-[160px]">{fighter.name}</h3>
                         {getPerkBadge(fighter) && (
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent/15 border border-accent/50 text-accent font-russo">
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-accent/15 border border-accent/50 text-accent font-russo line-clamp-1">
                             Perk
                           </span>
                         )}
                       </div>
-                      <p className="font-russo text-xs text-secondary">{fighter.stand}</p>
-                      <p className="font-russo text-[11px] text-muted-foreground line-clamp-1">{fighter.specialAbility}</p>
-                      <div className="flex items-center gap-3 text-[10px] font-russo">
+                      <p className="font-russo text-xs text-secondary truncate max-w-[180px]">{fighter.stand}</p>
+                      <p className="font-russo text-[11px] text-muted-foreground line-clamp-2 leading-relaxed max-w-[240px]">{fighter.specialAbility}</p>
+                      <div className="flex items-center gap-3 text-[10px] font-russo flex-wrap">
                         <span className="px-2 py-0.5 rounded bg-gyro/15 text-gyro border border-gyro/40">HP {fighter.maxHp}</span>
                         <span className="px-2 py-0.5 rounded bg-destructive/15 text-destructive border border-destructive/40">ATK {fighter.attackPower}</span>
                       </div>
@@ -132,12 +134,14 @@ export function FighterSelect({ onSelect }: FighterSelectProps) {
                 ))}
               </div>
 
-              <div className="mt-5 grid grid-cols-3 gap-3">
+              <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <button
                   className={cn(
                     "group relative overflow-hidden rounded-xl border-2 border-primary/50 px-3 py-3 font-bebas text-lg tracking-wide",
                     "bg-gradient-to-br from-primary/20 via-primary/10 to-card/50 hover:from-primary/30 hover:to-primary/15 transition-all duration-300",
-                    "shadow-[0_0_25px_hsl(var(--primary)/0.35)] disabled:opacity-50 disabled:cursor-not-allowed"
+                    "shadow-[0_0_25px_hsl(var(--primary)/0.35)] disabled:opacity-50 disabled:cursor-not-allowed",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                    "active:scale-[0.98] disabled:scale-100"
                   )}
                   onClick={() => spotlightFighter && handleSelect(spotlightFighter)}
                   disabled={!spotlightFighter || selectionLocked}
@@ -149,7 +153,9 @@ export function FighterSelect({ onSelect }: FighterSelectProps) {
                   className={cn(
                     "group relative overflow-hidden rounded-xl border-2 border-accent/60 px-3 py-3 font-bebas text-lg tracking-wide",
                     "bg-gradient-to-br from-accent/30 via-accent/15 to-card/50 hover:from-accent/40 hover:to-accent/20 transition-all duration-300",
-                    "shadow-[0_0_30px_hsl(var(--accent)/0.35)] disabled:opacity-50 disabled:cursor-not-allowed"
+                    "shadow-[0_0_30px_hsl(var(--accent)/0.35)] disabled:opacity-50 disabled:cursor-not-allowed",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                    "active:scale-[0.98] disabled:scale-100"
                   )}
                   onClick={() => {
                     if (selectionLocked || availableFighters.length === 0) return;
@@ -165,7 +171,9 @@ export function FighterSelect({ onSelect }: FighterSelectProps) {
                   className={cn(
                     "group relative overflow-hidden rounded-xl border-2 border-gyro/70 px-3 py-3 font-bebas text-lg tracking-wide",
                     "bg-gradient-to-br from-gyro/25 via-gyro/15 to-card/50 hover:from-gyro/35 hover:to-gyro/20 transition-all duration-300",
-                    "shadow-[0_0_30px_hsl(var(--gyro)/0.3)] disabled:opacity-50 disabled:cursor-not-allowed"
+                    "shadow-[0_0_30px_hsl(var(--gyro)/0.3)] disabled:opacity-50 disabled:cursor-not-allowed",
+                    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gyro/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+                    "active:scale-[0.98] disabled:scale-100"
                   )}
                   onClick={() => spotlightFighter && handleSelect(spotlightFighter)}
                   disabled={!spotlightFighter || selectionLocked}
@@ -195,7 +203,7 @@ export function FighterSelect({ onSelect }: FighterSelectProps) {
               </div>
 
               {spotlightFighter ? (
-                <div className="relative flex-1 flex flex-col gap-4">
+                <div className="relative flex-1 flex flex-col gap-4 min-w-0">
                   <div className="relative overflow-hidden rounded-xl border border-accent/40 bg-gradient-to-br from-card/80 to-card/30 shadow-[0_0_30px_hsl(var(--accent)/0.35)]">
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_20%,hsl(var(--primary)/0.25),transparent_40%)]" />
                     <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%)" }} />
@@ -206,11 +214,11 @@ export function FighterSelect({ onSelect }: FighterSelectProps) {
                         className="w-44 h-52 object-contain drop-shadow-[0_0_35px_hsl(var(--accent)/0.55)]"
                       />
                       <div className="text-center space-y-1">
-                        <h3 className="font-bebas text-3xl text-accent tracking-wide">{spotlightFighter.name}</h3>
-                        <p className="font-russo text-sm text-secondary">{spotlightFighter.stand}</p>
-                        <p className="font-russo text-xs text-muted-foreground">{spotlightFighter.specialAbility}</p>
+                        <h3 className="font-bebas text-3xl text-accent tracking-wide line-clamp-1 max-w-[320px] mx-auto">{spotlightFighter.name}</h3>
+                        <p className="font-russo text-sm text-secondary line-clamp-1 max-w-[260px] mx-auto">{spotlightFighter.stand}</p>
+                        <p className="font-russo text-xs text-muted-foreground line-clamp-3 max-w-[360px] mx-auto">{spotlightFighter.specialAbility}</p>
                         {getPerkBadge(spotlightFighter) && (
-                          <p className="inline-flex items-center gap-2 font-russo text-xs text-accent bg-accent/10 border border-accent/40 rounded-full px-3 py-1">
+                          <p className="inline-flex items-center gap-2 font-russo text-xs text-accent bg-accent/10 border border-accent/40 rounded-full px-3 py-1 line-clamp-2 text-center">
                             <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
                             {getPerkBadge(spotlightFighter)}
                           </p>
