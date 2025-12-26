@@ -6,12 +6,17 @@ import {
   getRandomCpuOpponent,
   generateMathProblem,
   MathProblem,
-  BASE_DAMAGE,
   COMBO_BONUS,
   SPECIAL_MULTIPLIER,
   WRONG_ANSWER_DAMAGE,
   TIMEOUT_DAMAGE,
   MAX_COMBO_FOR_SPECIAL,
+  HARD_OPERATION_TYPES,
+  GYRO_HARD_OPERATION_BONUS,
+  JOHNNY_QUICK_ANSWER_WINDOW,
+  JOHNNY_QUICK_DAMAGE_BONUS,
+  JOHNNY_QUICK_METER_BONUS,
+  VALENTINE_DAMAGE_REDUCTION,
 } from "@/data/battleData";
 
 export type BattlePhase = "menu" | "mode-select" | "character-select" | "fighting" | "victory" | "defeat";
@@ -36,6 +41,7 @@ interface BattleState {
   isAnswering: boolean;
   lastAction: "attack" | "damage" | "special" | "idle";
   showKO: boolean;
+  questionStartTime: number;
 }
 
 export function useBattleState() {
@@ -58,6 +64,7 @@ export function useBattleState() {
     isAnswering: false,
     lastAction: "idle",
     showKO: false,
+    questionStartTime: Date.now(),
   });
 
   const goToModeSelect = useCallback(() => {
@@ -93,12 +100,15 @@ export function useBattleState() {
       isAnswering: false,
       lastAction: "idle",
       showKO: false,
+      questionStartTime: Date.now(),
     }));
   }, []);
 
   const submitBattleAnswer = useCallback((answer: number) => {
     setState(prev => {
-      if (!prev.currentProblem || prev.isAnswering || !prev.player) return prev;
+      if (!prev.currentProblem || prev.isAnswering || !prev.player || !prev.cpu) return prev;
+
+      const timeTaken = (Date.now() - prev.questionStartTime) / 1000;
 
       const isCorrect = answer === prev.currentProblem.answer;
       
@@ -107,11 +117,28 @@ export function useBattleState() {
         const newCombo = prev.combo + 1;
         const comboBonus = newCombo * COMBO_BONUS;
         const isSpecialAttack = prev.isSpecialReady;
-        const baseDamage = prev.player.attackPower + comboBonus;
-        const finalDamage = isSpecialAttack ? baseDamage * SPECIAL_MULTIPLIER : baseDamage;
+        let baseDamage = prev.player.attackPower + comboBonus;
+
+        if (prev.player.id === "gyro" && HARD_OPERATION_TYPES.includes(prev.currentProblem.operation)) {
+          baseDamage *= (1 + GYRO_HARD_OPERATION_BONUS);
+        }
+
+        if (prev.player.id === "johnny" && timeTaken <= JOHNNY_QUICK_ANSWER_WINDOW) {
+          baseDamage += JOHNNY_QUICK_DAMAGE_BONUS;
+        }
+
+        let finalDamage = isSpecialAttack ? baseDamage * SPECIAL_MULTIPLIER : baseDamage;
+
+        if (prev.cpu.id === "valentine") {
+          finalDamage *= (1 - VALENTINE_DAMAGE_REDUCTION);
+        }
+
+        finalDamage = Math.max(1, Math.round(finalDamage));
         
         const newCpuHp = Math.max(0, prev.cpuHp - finalDamage);
-        const newSpecialMeter = isSpecialAttack ? 0 : Math.min(prev.specialMeter + 1, MAX_COMBO_FOR_SPECIAL);
+        const quickMeterBonus = prev.player.id === "johnny" && timeTaken <= JOHNNY_QUICK_ANSWER_WINDOW ? JOHNNY_QUICK_METER_BONUS : 0;
+        const meterGain = isSpecialAttack ? 0 : 1 + quickMeterBonus;
+        const newSpecialMeter = isSpecialAttack ? 0 : Math.min(prev.specialMeter + meterGain, MAX_COMBO_FOR_SPECIAL);
         const isSpecialReady = newSpecialMeter >= MAX_COMBO_FOR_SPECIAL;
 
         // Check win condition
@@ -140,7 +167,13 @@ export function useBattleState() {
         };
       } else {
         // Wrong answer - player takes damage
-        const newPlayerHp = Math.max(0, prev.playerHp - WRONG_ANSWER_DAMAGE);
+        let incomingDamage = WRONG_ANSWER_DAMAGE;
+
+        if (prev.player.id === "valentine") {
+          incomingDamage *= (1 - VALENTINE_DAMAGE_REDUCTION);
+        }
+
+        const newPlayerHp = Math.max(0, prev.playerHp - Math.max(1, Math.round(incomingDamage)));
 
         // Check lose condition
         if (newPlayerHp <= 0) {
@@ -175,16 +208,20 @@ export function useBattleState() {
       currentProblem: generateMathProblem(),
       isAnswering: false,
       lastAction: "idle",
+      questionStartTime: Date.now(),
     }));
   }, []);
 
   const battleTimeUp = useCallback(() => {
     setState(prev => {
-      if (prev.isAnswering) return prev;
+      if (prev.isAnswering || !prev.player) return prev;
 
       const newPlayerHp = Math.max(0, prev.playerHp - TIMEOUT_DAMAGE);
+      const adjustedPlayerHp = prev.player?.id === "valentine"
+        ? Math.max(0, prev.playerHp - Math.max(1, Math.round(TIMEOUT_DAMAGE * (1 - VALENTINE_DAMAGE_REDUCTION))))
+        : newPlayerHp;
 
-      if (newPlayerHp <= 0) {
+      if (adjustedPlayerHp <= 0) {
         return {
           ...prev,
           playerHp: 0,
@@ -199,7 +236,7 @@ export function useBattleState() {
 
       return {
         ...prev,
-        playerHp: newPlayerHp,
+        playerHp: adjustedPlayerHp,
         combo: 0,
         wrongAnswers: prev.wrongAnswers + 1,
         isAnswering: true,
@@ -228,6 +265,7 @@ export function useBattleState() {
       isAnswering: false,
       lastAction: "idle",
       showKO: false,
+      questionStartTime: Date.now(),
     });
   }, []);
 

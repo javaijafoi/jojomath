@@ -1,5 +1,15 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Fighter, MathProblem, MAX_COMBO_FOR_SPECIAL } from "@/data/battleData";
+import { 
+  Fighter, 
+  MathProblem, 
+  MAX_COMBO_FOR_SPECIAL,
+  BATTLE_QUESTION_DURATION,
+  JOHNNY_QUICK_ANSWER_WINDOW,
+  JOHNNY_QUICK_DAMAGE_BONUS,
+  JOHNNY_QUICK_METER_BONUS,
+  VALENTINE_DAMAGE_REDUCTION,
+  GYRO_HARD_OPERATION_BONUS,
+} from "@/data/battleData";
 import { correctAnswerQuotes, wrongAnswerQuotes } from "@/data/gameData";
 import { HealthBar } from "./HealthBar";
 import { BattleStage } from "./BattleStage";
@@ -137,6 +147,19 @@ export function BattleBoard({
     return "idle";
   };
 
+  const getPerkLabel = (fighter: Fighter) => {
+    switch (fighter.id) {
+      case "johnny":
+        return `Responda em ${JOHNNY_QUICK_ANSWER_WINDOW}s: +${JOHNNY_QUICK_DAMAGE_BONUS} dano e +${JOHNNY_QUICK_METER_BONUS} medidor`;
+      case "gyro":
+        return `×/÷: +${Math.round(GYRO_HARD_OPERATION_BONUS * 100)}% de dano`;
+      case "valentine":
+        return `Love Train: -${Math.round(VALENTINE_DAMAGE_REDUCTION * 100)}% dano recebido (HP alto)`;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className={cn(
       "h-screen w-full flex flex-col bg-background overflow-hidden",
@@ -163,6 +186,22 @@ export function BattleBoard({
             showDamage={lastAction === "attack"}
           />
         </div>
+
+        {/* Perk indicators */}
+        <div className="max-w-4xl mx-auto mt-1 grid grid-cols-1 md:grid-cols-2 gap-1 text-[11px] md:text-xs font-russo text-muted-foreground">
+          {getPerkLabel(player) && (
+            <div className="flex items-center gap-2 bg-card/60 border border-border/60 rounded px-2 py-1">
+              <span className="text-primary">Player Perk</span>
+              <span className="text-foreground/80">{getPerkLabel(player)}</span>
+            </div>
+          )}
+          {getPerkLabel(cpu) && (
+            <div className="flex items-center gap-2 bg-card/60 border border-border/60 rounded px-2 py-1">
+              <span className="text-destructive">CPU Perk</span>
+              <span className="text-foreground/80">{getPerkLabel(cpu)}</span>
+            </div>
+          )}
+        </div>
         
         {/* Special meter */}
         <div className="max-w-4xl mx-auto mt-2">
@@ -188,7 +227,7 @@ export function BattleBoard({
 
       {/* Timer */}
       <Timer 
-        duration={12} 
+        duration={BATTLE_QUESTION_DURATION} 
         onTimeUp={handleTimeUp}
         isPaused={isAnswering || showFeedback}
         resetKey={`${round}-${problem.cardA}-${problem.cardB}`}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Fighter, getRandomFighters } from "@/data/battleData";
+import { Fighter, getRandomFighters, JOHNNY_QUICK_ANSWER_WINDOW, JOHNNY_QUICK_DAMAGE_BONUS, JOHNNY_QUICK_METER_BONUS, VALENTINE_DAMAGE_REDUCTION, GYRO_HARD_OPERATION_BONUS } from "@/data/battleData";
 import { cn } from "@/lib/utils";
 import { MenacingText } from "./MenacingText";
 
@@ -18,6 +18,19 @@ export function FighterSelect({ onSelect }: FighterSelectProps) {
   const handleSelect = (fighter: Fighter) => {
     setSelectedFighter(fighter);
     setTimeout(() => onSelect(fighter), 500);
+  };
+
+  const getPerkBadge = (fighter: Fighter) => {
+    switch (fighter.id) {
+      case "johnny":
+        return `Rápido (${JOHNNY_QUICK_ANSWER_WINDOW}s): +${JOHNNY_QUICK_DAMAGE_BONUS} dano / +${JOHNNY_QUICK_METER_BONUS} medidor`;
+      case "gyro":
+        return `×/÷: +${Math.round(GYRO_HARD_OPERATION_BONUS * 100)}% dano`;
+      case "valentine":
+        return `Love Train: -${Math.round(VALENTINE_DAMAGE_REDUCTION * 100)}% dano recebido`;
+      default:
+        return null;
+    }
   };
 
   return (
@@ -94,6 +107,11 @@ export function FighterSelect({ onSelect }: FighterSelectProps) {
               <p className="font-russo text-[10px] text-muted-foreground line-clamp-1">
                 {fighter.specialAbility}
               </p>
+              {getPerkBadge(fighter) && (
+                <p className="font-russo text-[10px] text-accent bg-accent/10 border border-accent/40 rounded px-2 py-1 mt-1">
+                  {getPerkBadge(fighter)}
+                </p>
+              )}
             </div>
 
             {/* Selection indicator */}
