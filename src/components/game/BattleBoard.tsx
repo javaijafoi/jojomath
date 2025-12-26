@@ -191,7 +191,7 @@ export function BattleBoard({
         duration={12} 
         onTimeUp={handleTimeUp}
         isPaused={isAnswering || showFeedback}
-        key={`${round}-${problem.cardA}-${problem.cardB}`}
+        resetKey={`${round}-${problem.cardA}-${problem.cardB}`}
       />
 
       {/* Main battle area */}

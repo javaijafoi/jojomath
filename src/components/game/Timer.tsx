@@ -1,34 +1,40 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 interface TimerProps {
   duration: number;
   onTimeUp: () => void;
-  isRunning: boolean;
-  key?: number;
+  isRunning?: boolean;
+  isPaused?: boolean;
+  resetKey?: string | number;
 }
 
-export function Timer({ duration, onTimeUp, isRunning }: TimerProps) {
+export function Timer({ duration, onTimeUp, isRunning = true, isPaused = false, resetKey }: TimerProps) {
   const [timeLeft, setTimeLeft] = useState(duration);
+  const hasEndedRef = useRef(false);
 
   useEffect(() => {
     setTimeLeft(duration);
-  }, [duration, isRunning]);
+    hasEndedRef.current = false;
+  }, [duration, resetKey]);
 
   useEffect(() => {
-    if (!isRunning) return;
-
-    if (timeLeft <= 0) {
-      onTimeUp();
-      return;
-    }
+    const shouldCount = isRunning && !isPaused;
+    if (!shouldCount || timeLeft <= 0) return;
 
     const timer = setInterval(() => {
-      setTimeLeft((prev) => prev - 0.1);
+      setTimeLeft((prev) => Math.max(prev - 0.1, 0));
     }, 100);
 
     return () => clearInterval(timer);
-  }, [isRunning, timeLeft, onTimeUp]);
+  }, [isRunning, isPaused, timeLeft]);
+
+  useEffect(() => {
+    if (timeLeft <= 0 && !hasEndedRef.current) {
+      hasEndedRef.current = true;
+      onTimeUp();
+    }
+  }, [timeLeft, onTimeUp]);
 
   const percent = (timeLeft / duration) * 100;
   const isLow = timeLeft <= duration * 0.3;

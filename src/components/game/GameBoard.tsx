@@ -161,10 +161,11 @@ export function GameBoard({
 
         {/* Timer compacto */}
         <Timer
-          key={timerKey}
           duration={ROUND_TIME}
           onTimeUp={handleTimeUp}
           isRunning={!isAnswering && !hasAnsweredRef.current}
+          isPaused={showFeedback}
+          resetKey={timerKey}
         />
 
         {/* Citação de incentivo - apenas quando não respondendo */}
