@@ -18,7 +18,7 @@ export function HealthBar({ currentHp, maxHp, isPlayer, fighterName, showDamage 
     : "polygon(12px 0, 100% 0, 100% 100%, 12px 100%, 0 50%)";
 
   return (
-    <div className={cn("relative flex items-end gap-3 w-full", !isPlayer && "flex-row-reverse")}>
+    <div className={cn("relative flex items-end gap-3 w-full min-w-0", !isPlayer && "flex-row-reverse")}>
       <div className="flex-1 relative">
         {/* Nameplate */}
         <div 
@@ -44,13 +44,13 @@ export function HealthBar({ currentHp, maxHp, isPlayer, fighterName, showDamage 
               )}
               style={{ clipPath }}
             />
-            <div className="relative flex items-center justify-between gap-2" style={{ clipPath }}>
-              <span className={cn("text-[10px] text-muted-foreground", isPlayer ? "order-1" : "order-2")}>
+            <div className="relative flex items-center justify-between gap-2 min-w-0" style={{ clipPath }}>
+              <span className={cn("text-[10px] text-muted-foreground shrink-0", isPlayer ? "order-1" : "order-2")}>
                 {isPlayer ? "Player" : "CPU"}
               </span>
               <span 
                 className={cn(
-                  "font-bebas text-lg leading-none tracking-wide",
+                  "font-bebas text-lg leading-none tracking-wide truncate",
                   isPlayer ? "text-gyro order-2" : "text-destructive order-1"
                 )}
               >

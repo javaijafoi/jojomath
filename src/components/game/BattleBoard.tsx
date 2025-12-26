@@ -169,17 +169,19 @@ export function BattleBoard({
       <div className="relative flex-shrink-0 border-b border-primary/20 bg-gradient-to-b from-background/80 via-background/50 to-background/0 backdrop-blur-lg">
         <div className="absolute inset-0 opacity-40 bg-[radial-gradient(circle_at_10%_0%,rgba(34,211,238,0.18),transparent_35%),radial-gradient(circle_at_90%_0%,rgba(239,68,68,0.18),transparent_35%)]" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
-        <div className="max-w-6xl mx-auto px-3 md:px-4 pt-6 pb-4 space-y-3 relative">
-          <div className="grid grid-cols-[1fr_auto_1fr] items-end gap-3 md:gap-6">
-            <HealthBar 
-              currentHp={playerHp} 
-              maxHp={playerMaxHp} 
-              isPlayer={true} 
-              fighterName={player.name}
-              showDamage={lastAction === "damage"}
-            />
+        <div className="max-w-6xl mx-auto px-3 md:px-4 pt-6 pb-4 space-y-4 md:space-y-3 relative">
+          <div className="grid grid-cols-1 items-stretch gap-4 md:gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-end">
+            <div className="min-w-0">
+              <HealthBar 
+                currentHp={playerHp} 
+                maxHp={playerMaxHp} 
+                isPlayer={true} 
+                fighterName={player.name}
+                showDamage={lastAction === "damage"}
+              />
+            </div>
             
-            <div className="relative flex flex-col items-center gap-2 px-3 py-2 rounded-xl border border-border/70 bg-card/80 backdrop-blur-md shadow-[0_12px_36px_rgba(0,0,0,0.35)]">
+            <div className="relative flex flex-col items-center gap-2 px-3 py-2 rounded-xl border border-border/70 bg-card/80 backdrop-blur-md shadow-[0_12px_36px_rgba(0,0,0,0.35)] min-w-[230px] max-w-full mx-auto lg:mx-0">
               <div className="absolute inset-0 opacity-30 bg-[linear-gradient(120deg,rgba(255,255,255,0.08)_15%,transparent_25%),linear-gradient(300deg,rgba(255,255,255,0.08)_15%,transparent_25%)]" />
               <div className="absolute -inset-x-6 top-1/2 -translate-y-1/2 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
               <div className="relative flex items-center gap-2">
@@ -199,13 +201,15 @@ export function BattleBoard({
               />
             </div>
 
-            <HealthBar 
-              currentHp={cpuHp} 
-              maxHp={cpuMaxHp} 
-              isPlayer={false} 
-              fighterName={cpu.name}
-              showDamage={lastAction === "attack"}
-            />
+            <div className="min-w-0">
+              <HealthBar 
+                currentHp={cpuHp} 
+                maxHp={cpuMaxHp} 
+                isPlayer={false} 
+                fighterName={cpu.name}
+                showDamage={lastAction === "attack"}
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-1 gap-2 md:gap-3 text-[11px] md:text-xs font-russo text-muted-foreground">
@@ -237,15 +241,15 @@ export function BattleBoard({
             {/* Perk indicators */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {getPerkLabel(player) && (
-                <div className="flex items-center gap-2 bg-card/70 border border-border/60 rounded-md px-3 py-2 shadow-sm">
-                  <span className="text-primary font-bebas text-sm tracking-wide">Player Perk</span>
-                  <span className="text-foreground/80">{getPerkLabel(player)}</span>
+                <div className="flex items-center gap-2 bg-card/70 border border-border/60 rounded-md px-3 py-2 shadow-sm min-w-0">
+                  <span className="text-primary font-bebas text-sm tracking-wide whitespace-nowrap">Player Perk</span>
+                  <span className="text-foreground/80 line-clamp-2">{getPerkLabel(player)}</span>
                 </div>
               )}
               {getPerkLabel(cpu) && (
-                <div className="flex items-center gap-2 bg-card/70 border border-border/60 rounded-md px-3 py-2 shadow-sm">
-                  <span className="text-destructive font-bebas text-sm tracking-wide">CPU Perk</span>
-                  <span className="text-foreground/80">{getPerkLabel(cpu)}</span>
+                <div className="flex items-center gap-2 bg-card/70 border border-border/60 rounded-md px-3 py-2 shadow-sm min-w-0">
+                  <span className="text-destructive font-bebas text-sm tracking-wide whitespace-nowrap">CPU Perk</span>
+                  <span className="text-foreground/80 line-clamp-2">{getPerkLabel(cpu)}</span>
                 </div>
               )}
             </div>
@@ -269,13 +273,13 @@ export function BattleBoard({
 
         {/* Math problem area */}
         <div className="flex-shrink-0 p-2 md:p-3">
-          <div className="flex items-center justify-center gap-2 md:gap-4 mb-3">
+          <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4 mb-3">
             <StandCard stand={problem.standA} value={problem.cardA} size="sm" />
             <OperationBadge operation={problem.operation} />
             <StandCard stand={problem.standB} value={problem.cardB} size="sm" />
           </div>
 
-          <div className="grid grid-cols-2 gap-2 max-w-md mx-auto">
+          <div className="grid grid-cols-2 gap-2 sm:gap-3 max-w-md mx-auto">
             {problem.options.map((option, index) => (
               <AnswerButton
                 key={`${round}-${index}-${option}`}

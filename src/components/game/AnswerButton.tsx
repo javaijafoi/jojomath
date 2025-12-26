@@ -52,20 +52,22 @@ export function AnswerButton({
       className={cn(
         "w-full h-12 md:h-14 text-3xl md:text-4xl font-bebas transition-all duration-200",
         "border-2 rounded-lg hover:scale-105 active:scale-95 relative overflow-hidden",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary/70",
+        "disabled:opacity-60 disabled:cursor-not-allowed disabled:scale-100",
         state === "idle" && [
           colors.bg,
           colors.border,
           colors.hover,
           "text-background",
-          "shadow-[0_0_12px_hsl(var(--answer-" + (index + 1) + ")/0.4)]",
+          "shadow-[0_0_12px_hsl(var(--answer-" + (index + 1) + ")/0.4)] hover:shadow-[0_0_20px_hsl(var(--answer-" + (index + 1) + ")/0.55)]",
         ],
         state === "correct" && [
           "bg-gyro text-gyro-foreground border-gyro",
-          "shadow-[0_0_25px_hsl(140,80%,50%/0.7)]",
+          "shadow-[0_0_25px_hsl(140,80%,50%/0.7)] hover:shadow-[0_0_30px_hsl(140,80%,60%/0.7)]",
         ],
         state === "wrong" && [
           "bg-destructive text-destructive-foreground border-destructive",
-          "shadow-[0_0_25px_hsl(0,85%,55%/0.7)]",
+          "shadow-[0_0_25px_hsl(0,85%,55%/0.7)] hover:shadow-[0_0_30px_hsl(0,85%,65%/0.7)]",
         ]
       )}
     >
