@@ -24,6 +24,19 @@ export function BattleStage({
     <div className="relative w-full h-full flex items-end justify-between px-4 pb-4">
       {/* Battle arena background effect */}
       <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 opacity-60 bg-[radial-gradient(circle_at_20%_20%,rgba(34,211,238,0.12),transparent_45%),radial-gradient(circle_at_80%_20%,rgba(239,68,68,0.12),transparent_45%),radial-gradient(circle_at_50%_80%,rgba(255,255,255,0.06),transparent_55%)]" />
+        <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white/5 via-white/0 to-transparent blur-3xl" />
+        <div className="absolute inset-x-8 bottom-8 h-8 bg-gradient-to-r from-primary/30 via-secondary/40 to-destructive/30 blur-xl opacity-70" />
+        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-background via-background/80 to-transparent" />
+      </div>
+
+      {isSpecialReady && (
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(52,211,153,0.08),transparent_60%)] animate-pulse" />
+          <div className="absolute inset-x-10 bottom-6 h-10 bg-gradient-to-r from-accent/20 via-transparent to-accent/20 blur-2xl opacity-70" />
+        </div>
+      )}
       
       {/* Speed lines when attacking */}
       {lastAction === "attack" && (
