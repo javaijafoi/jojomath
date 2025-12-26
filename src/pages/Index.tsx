@@ -53,7 +53,7 @@ const Index = () => {
       )}
 
       {/* Character/Fighter Selection */}
-      {currentPhase === "character-select" && gameMode === "race" && (
+      {currentPhase === "character-select" && gameMode === "race" && raceState.phase === "character-select" && (
         <CharacterSelect onSelect={(char) => {
           raceState.selectCharacter(char);
           battleState.selectGameMode("race"); // Keep sync
