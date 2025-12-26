@@ -269,6 +269,10 @@ export function useBattleState() {
     });
   }, []);
 
+  const acknowledgeKO = useCallback(() => {
+    setState(prev => prev.showKO ? { ...prev, showKO: false } : prev);
+  }, []);
+
   const getAvailableFighters = useCallback(() => {
     return getRandomFighters(6);
   }, []);
@@ -282,6 +286,7 @@ export function useBattleState() {
     nextBattleRound,
     battleTimeUp,
     restartBattle,
+    acknowledgeKO,
     getAvailableFighters,
   };
 }

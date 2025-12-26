@@ -8,6 +8,7 @@ import { GameBoard } from "@/components/game/GameBoard";
 import { BattleBoard } from "@/components/game/BattleBoard";
 import { GameOverScreen } from "@/components/game/GameOverScreen";
 import { BattleOverScreen } from "@/components/game/BattleOverScreen";
+import { BattleClashOverlay } from "@/components/game/BattleClashOverlay";
 
 const Index = () => {
   // Race mode state
@@ -124,6 +125,13 @@ const Index = () => {
           onRestart={handleRestart}
         />
       )}
+
+      {/* Battle impact overlay */}
+      <BattleClashOverlay
+        showKO={battleState.showKO && gameMode === "battle"}
+        lastAction={gameMode === "battle" ? battleState.lastAction : "idle"}
+        onResetKO={battleState.acknowledgeKO}
+      />
     </div>
   );
 };
